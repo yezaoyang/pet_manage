@@ -9,30 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15c87bd4-fb10-47c6-ba46-1c0214530a63" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/petManage/controller/PetController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/petManage/dao/PetMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/petManage/entity/Pet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/petManage/service/PetService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/petManage/service/serviceImpl/PetServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/jdbc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/PetMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/spring-mvc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/protobuf-java-3.21.9.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/pet_add.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/pet_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/pet_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/pet_detail.js" afterDir="false" />
+    <list default="true" id="15c87bd4-fb10-47c6-ba46-1c0214530a63" name="更改" comment="初始项目框架">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jdbc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jdbc.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,14 +29,25 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/yezaoyang/pet_manage.git",
-    "accountId": "b0a8d7af-577e-4072-ae44-d774b352f15a"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;yezaoyang&quot;
   }
-}]]></component>
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/yezaoyang/pet_manage.git&quot;,
+    &quot;accountId&quot;: &quot;b0a8d7af-577e-4072-ae44-d774b352f15a&quot;
+  }
+}</component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -98,7 +88,7 @@
     "Maven.pet_manage [compile].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Tomcat 服务器.Tomcat 9.0.115.executor": "Run",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "yezaoyang",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "E:/workspace-idea/pet_manage/src/main/webapp/pet_list.html",
     "node.js.detected.package.eslint": "true",
@@ -231,8 +221,18 @@
       <workItem from="1773396898538" duration="2564000" />
       <workItem from="1773637226587" duration="10473000" />
       <workItem from="1773660424847" duration="10817000" />
-      <workItem from="1773737585061" duration="627000" />
+      <workItem from="1773737585061" duration="2310000" />
+      <workItem from="1773740577223" duration="540000" />
     </task>
+    <task id="LOCAL-00001" summary="初始项目框架">
+      <option name="closed" value="true" />
+      <created>1773738333256</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1773738333256</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,11 +243,27 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="yezaoyang" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="初始项目框架" />
+    <option name="LAST_COMMIT_MESSAGE" value="初始项目框架" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
