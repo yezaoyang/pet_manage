@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.petManage.dao.PetMapper">
+
+    <sql id="Base_Column_List">
+        id, name, category_id, price, stock, image_url, description, status, create_time
+    </sql>
+
+    <select id="selectAllActive" resultType="org.example.petManage.entity.Pet">
+        SELECT <include refid="Base_Column_List" />
+        FROM pet
+        WHERE status = 1
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="org.example.petManage.entity.Pet">
+        SELECT <include refid="Base_Column_List" />
+        FROM pet
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="org.example.petManage.entity.Pet" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pet (name, category_id, price, stock, image_url, description)
+        VALUES (#{name}, #{categoryId}, #{price}, #{stock}, #{imageUrl}, #{description})
+    </insert>
+
+    <update id="update" parameterType="org.example.petManage.entity.Pet">
+        UPDATE `pet`
+        <set>
+            <if test="name != null and name != ''">`name` = #{name},</if>
+            <if test="breed != null">`breed` = #{breed},</if>
+            <if test="age != null">`age` = #{age},</if>
+            <if test="gender != null">`gender` = #{gender},</if>
+            <if test="description != null">`description` = #{description},</if>
+            <if test="avatar != null">`avatar` = #{avatar},</if>
+
+            <if test="price != null">`price` = #{price},</if>
+
+            <if test="isOnSale != null">`is_on_sale` = #{isOnSale},</if>
+            <if test="stock != null">`stock` = #{stock},</if>
+            <if test="adoptStatus != null">`adopt_status` = #{adoptStatus},</if>
+            <if test="healthStatus != null">`health_status` = #{healthStatus},</if>
+
+            `update_time` = NOW()
+        </set>
+        WHERE `id` = #{id}
+    </update>
+
+</mapper>

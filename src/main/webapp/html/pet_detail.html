@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>商品运营中心 - 宠物商城服务端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        .op-card { border-radius: 12px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .price-tag { font-size: 2rem; color: #dc3545; font-weight: bold; }
+        .nav-tabs .nav-link { color: #495057; }
+        .nav-tabs .nav-link.active { font-weight: bold; border-bottom: 3px solid #0d6efd; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="pet_list.html">商品列表</a></li>
+                <li class="breadcrumb-item active">商品运营详情</li>
+            </ol>
+        </nav>
+        <div id="saleStatusBanner">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card op-card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center border-end">
+                            <img id="petAvatar" src="" class="img-fluid rounded mb-3" style="max-height: 200px;">
+                            <button class="btn btn-outline-secondary btn-sm w-100">更换主图</button>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 id="petName" class="mb-1">--</h3>
+                            <p class="text-muted" id="petBreed">--</p>
+                            <div class="py-3">
+                                <span class="text-muted">当前商城标价：</span><br>
+                                <span class="price-tag">￥<span id="petPrice">0.00</span></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <small class="text-muted d-block">生命周期状态</small>
+                                    <strong id="adoptStatus">--</strong>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">库存数量</small>
+                                    <strong id="petStock">1</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card op-card">
+                <div class="card-header bg-white">
+                    <ul class="nav nav-tabs card-header-tabs" id="myTab">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#desc">文案描述</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#health">健康档案</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#logs">操作日志</a></li>
+                    </ul>
+                </div>
+                <div class="card-body tab-content">
+                    <div class="tab-pane fade show active" id="desc">
+                        <h6>商品详情描述（前台可见）:</h6>
+                        <div id="petDescription" class="p-3 bg-light rounded">--</div>
+                    </div>
+                    <div class="tab-pane fade" id="health">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between"><span>健康状况</span><span id="petHealth">--</span></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>疫苗接种</span><span>已接种三针</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card op-card mb-4">
+                <div class="card-header bg-white fw-bold">商城控制台</div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-primary py-2" id="btnToggleSale">
+                            <i class="bi bi-arrow-up-circle"></i> <span>加载中...</span>
+                        </button>
+                        <button class="btn btn-outline-warning" id="btnEditPrice">
+                            <i class="bi bi-tags"></i> 修改定价
+                        </button>
+                        <hr>
+                        <button class="btn btn-outline-danger btn-sm" id="btnDelete">
+                            下架并删除商品
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card op-card">
+                <div class="card-header bg-white fw-bold">最近订单</div>
+                <div class="card-body p-0">
+                    <div id="orderHistory" class="list-group list-group-flush">
+                        <div class="p-4 text-center text-muted">暂无相关订单记录</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/pet_detail.js"></script>
+</body>
+</html>

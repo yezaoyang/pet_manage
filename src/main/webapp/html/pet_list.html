@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>宠物管理系统</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .pet-card { transition: transform 0.2s; cursor: pointer; }
+    .pet-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .table-container { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="#">🐾 PetManage Pro</a>
+</nav>
+
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h3>宠物档案列表</h3>
+    </div>
+    <div class="col-md-6 text-right">
+      <button class="btn btn-primary" onclick="loadPetData()">🔄 刷新列表</button>
+      <a href="/html/pet_add.html" class="btn btn-success">➕ 添加新宠物</a>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="table table-hover">
+      <thead class="thead-light">
+      <tr>
+        <th>#ID</th>
+        <th>宠物名称</th>
+        <th>品种</th>
+        <th>年龄 (岁)</th>
+        <th class="text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody id="petTableBody">
+      <tr>
+        <td colspan="5" class="text-center text-muted">正在连接数据库，请稍候...</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  // 1. 页面加载完成后立即获取数据
+  $(document).ready(function() {
+    loadPetData();
+  });
+
+  // 2. 封装 Ajax 请求函数
+  function loadPetData() {
+    const $tbody = $('#petTableBody');
+
+    // 显示加载动画
+    $tbody.html('<tr><td colspan="5" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>');
+
+    $.ajax({
+      // 注意：请根据你的项目上下文路径修改此处（例如 /pet_manage/api/pet/list）
+      url: 'api/pet/list',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        $tbody.empty(); // 清空旧数据
+
+        if (data.length === 0) {
+          $tbody.append('<tr><td colspan="5" class="text-center">目前档案库是空的 📭</td></tr>');
+          return;
+        }
+
+        // 3. 循环拼接 HTML
+        $.each(data, function(index, pet) {
+          const row = `
+                        <tr>
+                            <td>${pet.id}</td>
+                            <td><strong>${pet.name}</strong></td>
+                            <td><span class="badge badge-info">${pet.type}</span></td>
+                            <td>${pet.age}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-outline-primary mr-2" onclick="goDetail(${pet.id})">查看详情</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deletePet(${pet.id})">注销</button>
+                            </td>
+                        </tr>
+                    `;
+          $tbody.append(row);
+        });
+      },
+      error: function(xhr) {
+        $tbody.html(`<tr><td colspan="5" class="text-center text-danger">数据请求失败，请检查后端 API (状态码: ${xhr.status})</td></tr>`);
+      }
+    });
+  }
+
+  // 跳转到详情页（带上 ID 参数）
+  function goDetail(id) {
+    window.location.href = `/pet_detail.html?id=${id}`;
+  }
+
+  // 删除宠物函数
+  function deletePet(id) {
+    if (confirm('确定要删除这条宠物记录吗？')) {
+      // 这里以后可以写 $.ajax({ url: 'api/pet/delete', type: 'POST', ... })
+      alert('点击了删除 ID: ' + id + '。请先在后端实现相应的 Delete 接口。');
+    }
+  }
+</script>
+
+</body>
+</html>
