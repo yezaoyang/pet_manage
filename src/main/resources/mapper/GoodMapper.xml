@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.example.petManage.dao.PetMapper">
+<mapper namespace="org.example.modules.goodManage.dao.GoodMapper">
 
     <sql id="Base_Column_List">
         id, name, category_id, price, stock, image_url, description, status, create_time
     </sql>
 
-    <select id="selectAllActive" resultType="org.example.petManage.entity.Pet">
+    <select id="selectAllActive" resultType="org.example.modules.goodManage.entity.Good">
         SELECT <include refid="Base_Column_List" />
-        FROM pet
+        FROM good
         WHERE status = 1
         ORDER BY create_time DESC
     </select>
 
-    <select id="selectById" parameterType="java.lang.Integer" resultType="org.example.petManage.entity.Pet">
+    <select id="selectById" parameterType="java.lang.Integer" resultType="org.example.modules.goodManage.entity.Good">
         SELECT <include refid="Base_Column_List" />
-        FROM pet
+        FROM good
         WHERE id = #{id}
     </select>
 
-    <insert id="insert" parameterType="org.example.petManage.entity.Pet" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO pet (name, category_id, price, stock, image_url, description)
+    <insert id="insert" parameterType="org.example.modules.goodManage.entity.Good" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO good (name, category_id, price, stock, image_url, description)
         VALUES (#{name}, #{categoryId}, #{price}, #{stock}, #{imageUrl}, #{description})
     </insert>
 
-    <update id="update" parameterType="org.example.petManage.entity.Pet">
-        UPDATE `pet`
+    <update id="update" parameterType="org.example.modules.goodManage.entity.Good">
+        UPDATE `good`
         <set>
             <if test="name != null and name != ''">`name` = #{name},</if>
             <if test="breed != null">`breed` = #{breed},</if>

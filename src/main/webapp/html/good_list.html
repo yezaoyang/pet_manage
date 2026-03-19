@@ -6,8 +6,8 @@
   <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background-color: #f8f9fa; }
-    .pet-card { transition: transform 0.2s; cursor: pointer; }
-    .pet-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .good-card { transition: transform 0.2s; cursor: pointer; }
+    .good-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .table-container { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
   </style>
 </head>
@@ -64,8 +64,8 @@
     $tbody.html('<tr><td colspan="5" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>');
 
     $.ajax({
-      // 注意：请根据你的项目上下文路径修改此处（例如 /pet_manage/api/pet/list）
-      url: 'api/pet/list',
+      // 注意：请根据你的项目上下文路径修改此处（例如 /pet_manage/api/good/list）
+      url: 'api/good/list',
       type: 'GET',
       dataType: 'json',
       success: function(data) {
@@ -77,16 +77,16 @@
         }
 
         // 3. 循环拼接 HTML
-        $.each(data, function(index, pet) {
+        $.each(data, function(index, good) {
           const row = `
                         <tr>
-                            <td>${pet.id}</td>
-                            <td><strong>${pet.name}</strong></td>
-                            <td><span class="badge badge-info">${pet.type}</span></td>
-                            <td>${pet.age}</td>
+                            <td>${good.id}</td>
+                            <td><strong>${good.name}</strong></td>
+                            <td><span class="badge badge-info">${good.type}</span></td>
+                            <td>${good.age}</td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary mr-2" onclick="goDetail(${pet.id})">查看详情</button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="deletePet(${pet.id})">注销</button>
+                                <button class="btn btn-sm btn-outline-primary mr-2" onclick="goDetail(${good.id})">查看详情</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deletePet(${good.id})">注销</button>
                             </td>
                         </tr>
                     `;
@@ -101,13 +101,13 @@
 
   // 跳转到详情页（带上 ID 参数）
   function goDetail(id) {
-    window.location.href = `/pet_detail.html?id=${id}`;
+    window.location.href = `/good_detail.html?id=${id}`;
   }
 
   // 删除宠物函数
   function deletePet(id) {
     if (confirm('确定要删除这条宠物记录吗？')) {
-      // 这里以后可以写 $.ajax({ url: 'api/pet/delete', type: 'POST', ... })
+      // 这里以后可以写 $.ajax({ url: 'api/good/delete', type: 'POST', ... })
       alert('点击了删除 ID: ' + id + '。请先在后端实现相应的 Delete 接口。');
     }
   }

@@ -10,7 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15c87bd4-fb10-47c6-ba46-1c0214530a63" name="更改" comment="测试提交">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/controller/PetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/controller/GoodController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/dao/PetMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/dao/GoodMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/entity/Pet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/entity/Good.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/service/PetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/service/GoodService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/service/serviceImpl/PetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/service/serviceImpl/GoodServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/PetMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/GoodMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/spring-mvc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/spring-mvc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/pet_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/good_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/pet_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/good_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/pet_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/good_detail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +107,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "全局库",
+    "project.structure.last.edited": "工件",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.23563218",
     "settings.editor.selected.configurable": "File.Encoding",
@@ -222,6 +234,8 @@
       <workItem from="1773660424847" duration="10817000" />
       <workItem from="1773737585061" duration="2310000" />
       <workItem from="1773740577223" duration="540000" />
+      <workItem from="1773830354957" duration="662000" />
+      <workItem from="1773896716970" duration="2183000" />
     </task>
     <task id="LOCAL-00001" summary="初始项目框架">
       <option name="closed" value="true" />
