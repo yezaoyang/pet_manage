@@ -10,19 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15c87bd4-fb10-47c6-ba46-1c0214530a63" name="更改" comment="测试提交">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/order.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/user_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css/admin-layout.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css/good-detail.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css/good-list.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js/dashboard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/controller/PetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/controller/GoodController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/dao/PetMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/dao/GoodMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/entity/Pet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/entity/Good.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/service/PetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/service/GoodService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/petManage/service/serviceImpl/PetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/goodManage/service/serviceImpl/GoodServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/PetMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/GoodMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/spring-mvc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/spring-mvc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/pet_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/good_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/pet_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/good_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/pet_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/good_detail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/good_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/good_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/good_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/good_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/good_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/good_detail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +35,8 @@
       <list>
         <option value="spring-beans.schema" />
         <option value="Class" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -110,12 +111,13 @@
     "project.structure.last.edited": "工件",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.23563218",
-    "settings.editor.selected.configurable": "File.Encoding",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\workspace-idea\pet_manage\src\main\webapp\static" />
       <recent name="E:\workspace-idea\pet_manage\src\main\webapp" />
       <recent name="E:\workspace-idea\pet_manage\src\main\webapp\html" />
       <recent name="E:\workspace-idea\pet_manage\src\main\webapp\WEB-INF" />
@@ -270,7 +272,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="yezaoyang" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -285,7 +287,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="初始项目框架" />
     <MESSAGE value="测试提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="测试提交" />
+    <MESSAGE value="修改项目结构为多模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改项目结构为多模块" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
