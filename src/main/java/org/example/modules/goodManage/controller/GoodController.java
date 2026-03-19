@@ -1,7 +1,7 @@
-package org.example.petManage.controller;
+package org.example.modules.goodManage.controller;
 
-import org.example.petManage.entity.Pet;
-import org.example.petManage.service.PetService;
+import org.example.modules.goodManage.entity.Good;
+import org.example.modules.goodManage.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,22 +12,22 @@ import java.util.List;
  * 这样类中所有方法都会直接返回数据给前端，不再跳转 JSP
  */
 @RestController
-@RequestMapping("/api/pet")
+@RequestMapping("/api/good")
 @CrossOrigin(origins = "*") // 允许跨域，方便前端调试
-public class PetController {
+public class GoodController {
 
     @Autowired
-    private PetService petService;
+    private GoodService petService;
 
     // 获取所有宠物列表
     @GetMapping("/list")
-    public List<Pet> list() {
+    public List<Good> list() {
         return petService.getAllActivePets();
     }
 
     // 根据 ID 获取宠物详情
     @GetMapping("/getById")
-    public Pet getById(@RequestParam("id") Integer id) {
+    public Good getById(@RequestParam("id") Integer id) {
         return petService.getPetById(id);
     }
 
@@ -43,9 +43,9 @@ public class PetController {
     @PostMapping("/toggleSale")
     public String toggleSale(@RequestParam("id") Integer id, @RequestParam("status") Integer status) {
         // status: 1 为上架，0 为下架
-        Pet pet = petService.getPetById(id);
-        pet.setIsOnSale(status);
-        petService.update(pet);
+        Good good = petService.getPetById(id);
+        good.setIsOnSale(status);
+        petService.update(good);
         return "success";
     }
 }

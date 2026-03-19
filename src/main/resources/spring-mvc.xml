@@ -25,7 +25,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <context:component-scan base-package="org.example.petManage.controller" />
+    <context:component-scan base-package="org.example.modules.goodManage.controller" />
 
     <mvc:resources mapping="/static/**" location="/static/" />
 
