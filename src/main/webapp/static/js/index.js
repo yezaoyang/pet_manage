@@ -1,15 +1,25 @@
 $(function() {
     // 定义切换页面的函数
-    function switchPage(pageUrl) {
-        // 1. 加载 HTML 片段到容器
-        $("#main-container").load(pageUrl, function(response, status, xhr) {
-            if (status == "error") {
-                $("#main-container").html("<div class='alert alert-danger'>页面加载失败: " + xhr.status + "</div>");
+    function switchPage(pageName, menuTitle) {
+        // 假设 pageName 原本是 "user_list.html"
+        // 我们去掉后缀，请求后端的 RESTful 接口
+        const pureName = pageName.replace(".html", "");
+        const apiUrl = "admin/loadPage/" + pureName;
+
+        $("#main-container").load(apiUrl, function(response, status, xhr) {
+            if (status === "error") {
+                // 如果拦截器返回了 302 重定向到登录页，load 可能会报错或加载出登录页
+                if (xhr.status === 401 || xhr.status === 302) {
+                    window.location.href = "login.html";
+                } else {
+                    $("#main-container").html("<div class='alert alert-danger'>页面加载失败</div>");
+                }
             } else {
-                // 2. 页面加载成功后，立即去后台拉取 JSON 数据并渲染表格
-                // 例如：如果是类目页，调用 loadCategoryData();
-                if(pageUrl.includes("category-list")) {
-                    initCategoryModule();
+                // 更新面包屑和初始化逻辑保持不变
+                if (menuTitle) window.updateBreadcrumb(menuTitle);
+
+                if (pageName.includes("user_list")) {
+                    if (typeof initUserModule === "function") initUserModule();
                 }
             }
         });

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --primary-color: #1abc9c; --dark-bg: #2c3e50; }
+
+        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', sans-serif; }
+
+        .login-wrapper { display: flex; height: 100vh; overflow: hidden; }
+
+        /* 左侧：品牌展示区 */
+        .login-left {
+            flex: 0.8;
+            background: linear-gradient(rgba(26, 188, 156, 0.8), rgba(44, 62, 80, 0.9)),
+            url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 60px;
+            text-align: center;
+        }
+
+        /* 右侧：登录表单区 */
+        .login-right {
+            flex: 1.2;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            min-width: 450px;
+        }
+
+        .login-box { max-width: 450px; width: 100%; margin: 0 auto; }
+        .brand-logo { font-size: 4rem; color: #fff; margin-bottom: 20px; }
+        .form-control { padding: 12px; border-radius: 8px; background: #f8f9fa; border: 1px solid #eee; }
+        .form-control:focus { box-shadow: 0 0 0 0.25rem rgba(26, 188, 156, 0.15); border-color: var(--primary-color); }
+        .btn-login {
+            background: var(--primary-color); border: none; padding: 12px;
+            border-radius: 8px; font-weight: 600; color: white; transition: 0.3s;
+        }
+        .btn-login:hover { background: #16a085; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(26, 188, 156, 0.3); }
+
+        /* 响应式：手机端自动变为单列 */
+        @media (max-width: 992px) {
+            .login-left { display: none; }
+            .login-right { padding: 0 20px; min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+    <div class="login-left">
+        <div class="brand-logo"><i class="fas fa-paw"></i></div>
+        <h1 class="display-4 fw-bold">宠物商城</h1>
+        <p class="lead">专业宠物用品商城管理系统</p>
+        <div class="mt-4 pt-2 border-top border-light border-opacity-25 w-50">
+            <small>Version 3.0 | 智能化仓储与会员管理</small>
+        </div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-box">
+            <h3 class="fw-bold text-dark mb-2">欢迎回来</h3>
+            <p class="text-muted mb-4">请登录您的管理员账号以继续</p>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">用户名</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i class="fas fa-user text-muted"></i></span>
+                        <input type="text" class="form-control border-start-0" id="username"  required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-bold">密码</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i class="fas fa-lock text-muted"></i></span>
+                        <input type="password" class="form-control border-start-0" id="password"  required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-login w-100" id="loginBtn">
+                    <span class="spinner-border spinner-border-sm d-none" id="loader"></span>
+                    进入系统
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+        const $btn = $('#loginBtn');
+        const $loader = $('#loader');
+
+        $btn.prop('disabled', true);
+        $loader.removeClass('d-none');
+
+        const loginData = {
+            username: $('#username').val(),
+            password: $('#password').val()
+        };
+
+        $.ajax({
+            url: "/api/user/login",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(loginData),
+            success: function(res) {
+                if (res.code === 200) {
+                    localStorage.setItem("userInfo", JSON.stringify(res.data));
+                    window.location.href = "index.html";
+                } else {
+                    alert(res.msg);
+                    $btn.prop('disabled', false);
+                    $loader.addClass('d-none');
+                }
+            },
+            error: function() {
+                alert("后端服务连接失败");
+                $btn.prop('disabled', false);
+                $loader.addClass('d-none');
+            }
+        });
+    });
+</script>
+</body>
+</html>
