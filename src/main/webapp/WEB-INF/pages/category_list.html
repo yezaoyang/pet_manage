@@ -1,0 +1,116 @@
+<head>
+  <link rel="stylesheet" href="/pet_manage/static/css/admin-layout.css">
+</head>
+<div class="card-body border-bottom">
+  <form class="form-inline" id="searchForm">
+    <div class="form-group mr-3">
+      <label for="search_id" class="sr-only">ID</label>
+      <input type="number" class="form-control" id="search_id" placeholder="输入ID" style="width: 120px;">
+    </div>
+
+    <div class="form-group mr-3">
+      <label for="search_name" class="sr-only">名称</label>
+      <input type="text" class="form-control" id="search_name" placeholder="输入分类名称">
+    </div>
+
+    <div class="form-group mr-3">
+      <label for="search_level" class="sr-only">级别</label>
+      <select class="form-control" id="search_level">
+        <option value="">-- 全部级别 --</option>
+        <option value="1">一级大类</option>
+        <option value="2">二级子类</option>
+      </select>
+    </div>
+    <div style="margin-bottom: 11px;">
+      <button type="button" class="btn btn-primary" onclick="searchData()">
+        <i class="fa fa-search"></i> 查询
+      </button>
+      <button type="button" class="btn btn-default ml-2" onclick="resetSearch()">
+        重置
+      </button>
+    </div>
+  </form>
+</div>
+<div class="container-fluid">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-tags"></i> 分类管理</h6>
+      <button class="btn btn-primary btn-sm" onclick="showAddCategoryModal()">
+        <i class="fa fa-plus"></i> 新增分类
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="categoryTable" width="100%" cellspacing="0">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>分类名称</th>
+            <th>描述</th>
+            <th>级别</th>
+            <th>所属大类</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody id="categoryList">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">新增分类</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form id="categoryForm">
+          <input type="hidden" id="cat_id">
+          <div class="form-group">
+            <label>分类名称</label>
+            <input type="text" class="form-control" id="cat_name" required>
+          </div>
+          <div class="form-group">
+            <label>上级分类 (不选则为顶级大类)</label>
+            <select class="form-control" id="cat_parent">
+              <option value="0">--- 顶级大类 ---</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>描述</label>
+            <textarea class="form-control" id="cat_description" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="saveCategory()">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-between">
+  <div id="pageInfo">显示第 1 页，共 0 条记录</div>
+  <nav>
+    <ul class="pagination" id="pagination">
+    </ul>
+  </nav>
+</div>
+<script src=js/category_list.js"></script>
+<style>
+  /* 让搜索框之间保持呼吸间距 */
+  .form-inline .form-group {
+    margin-right: 15px;
+    margin-bottom: 10px; /* 防止在窄屏下换行时重叠 */
+  }
+  /* 统一搜索栏的高度和对齐 */
+  .form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+</style>

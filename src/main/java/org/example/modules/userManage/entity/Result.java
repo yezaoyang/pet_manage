@@ -1,4 +1,4 @@
-package org.example.modules.memberManage.entity;
+package org.example.modules.userManage.entity;
 
 import java.io.Serializable;
 

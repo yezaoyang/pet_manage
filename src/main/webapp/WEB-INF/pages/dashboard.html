@@ -87,13 +87,18 @@
                 <h5 class="card-title mb-0 fw-bold">快捷入口</h5>
             </div>
             <div class="card-body d-grid gap-2">
-                <button class="btn btn-outline-primary text-start py-3" onclick="loadPage('static/pages/product-add.html')">
+                <button class="btn btn-outline-primary text-start py-3"
+                        onclick="switchPage('product_add.html', '发布商品')">
                     <i class="fas fa-plus-circle me-2"></i> 发布新商品
                 </button>
-                <button class="btn btn-outline-secondary text-start py-3" onclick="loadPage('static/pages/category-list.html')">
-                    <i class="fas fa-tags me-2"></i> 管理类目
+
+                <button class="btn btn-outline-secondary text-start py-3"
+                        onclick="switchPage('category_list.html', '分类管理')">
+                    <i class="fas fa-tags me-2"></i> 管理分类
                 </button>
-                <button class="btn btn-outline-success text-start py-3">
+
+                <button class="btn btn-outline-success text-start py-3"
+                        onclick="switchPage('report_list.html', '财务报表')">
                     <i class="fas fa-file-invoice-dollar me-2"></i> 导出财务报表
                 </button>
             </div>
@@ -101,3 +106,4 @@
     </div>
 </div>
 <script src="/pet_manage/static/js/dashboard.js"></script>
+<script src="/pet_manage/static/js/index.js"></script>

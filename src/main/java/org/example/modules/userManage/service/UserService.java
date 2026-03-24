@@ -1,6 +1,6 @@
-package org.example.modules.memberManage.service;
+package org.example.modules.userManage.service;
 
-import org.example.modules.memberManage.entity.User;
+import org.example.modules.userManage.entity.User;
 import java.util.List;
 
 public interface UserService {
