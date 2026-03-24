@@ -1,8 +1,8 @@
-package org.example.modules.memberManage.service.serviceImpl;
+package org.example.modules.userManage.service.serviceImpl;
 
-import org.example.modules.memberManage.entity.User;
-import org.example.modules.memberManage.dao.UserMapper;
-import org.example.modules.memberManage.service.UserService;
+import org.example.modules.userManage.entity.User;
+import org.example.modules.userManage.dao.UserMapper;
+import org.example.modules.userManage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

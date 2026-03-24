@@ -1,7 +1,7 @@
-package org.example.modules.memberManage.controller;
-import org.example.modules.memberManage.entity.Result;
-import org.example.modules.memberManage.entity.User;
-import org.example.modules.memberManage.service.UserService;
+package org.example.modules.userManage.controller;
+import org.example.modules.userManage.entity.Result;
+import org.example.modules.userManage.entity.User;
+import org.example.modules.userManage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

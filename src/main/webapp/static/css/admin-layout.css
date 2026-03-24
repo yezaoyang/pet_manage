@@ -21,7 +21,7 @@ body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verda
 .sidebar-header { padding: 20px; font-size: 1.2rem; font-weight: bold; background: #1abc9c; text-align: center; }
 
 /* 主内容区样式 */
-.card { border: none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.card { border: none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);width: 102%;margin-left: -11px; }
 .btn-primary { background-color: #1abc9c; border-color: #1abc9c; }
 .btn-primary:hover { background-color: #16a085; border-color: #16a085; }
 
@@ -121,4 +121,25 @@ body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verda
 /* 同样，内容区也要联动 */
 .sidebar.collapsed ~ .main-content {
     margin-left: var(--sidebar-collapsed-width);
+}
+ /* 强行定义标签样式，防止颜色不明显 */
+ .label {
+     display: inline;
+     padding: .2em .6em .3em;
+     font-size: 75%;
+     font-weight: 700;
+     line-height: 1;
+     color: #fff;
+     text-align: center;
+     white-space: nowrap;
+     vertical-align: baseline;
+     border-radius: .25em;
+ }
+/* 强行设置绿色 */
+.label-success {
+    background-color: #28a745 !important;
+}
+/* 强行设置蓝色 */
+.label-info {
+    background-color: #17a2b8 !important;
 }

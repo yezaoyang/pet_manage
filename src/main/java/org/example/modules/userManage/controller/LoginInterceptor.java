@@ -1,4 +1,4 @@
-package org.example.modules.memberManage.controller;
+package org.example.modules.userManage.controller;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
