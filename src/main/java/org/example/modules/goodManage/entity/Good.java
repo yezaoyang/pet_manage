@@ -1,10 +1,10 @@
-package org.example.petManage.entity;
+package org.example.modules.goodManage.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Pet implements Serializable {
+public class Good implements Serializable {
     private Integer id;
     private String name;
     private Integer categoryId; // 对应数据库字段 category_id
@@ -19,7 +19,7 @@ public class Pet implements Serializable {
 
 
     // 无参构造
-    public Pet() {}
+    public Good() {}
 
     // Getter 和 Setter 方法
     public Integer getId() { return id; }

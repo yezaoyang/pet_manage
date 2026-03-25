@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/admin-layout.css">
+</head>
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                    <i class="fas fa-shopping-bag text-primary fa-lg"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted mb-1">今日订单</h6>
+                    <h4 class="mb-0" id="today-orders">0</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                    <i class="fas fa-yen-sign text-success fa-lg"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted mb-1">今日销售额</h6>
+                    <h4 class="mb-0">¥<span id="today-revenue">0.00</span></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                    <i class="fas fa-user-plus text-info fa-lg"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted mb-1">新增会员</h6>
+                    <h4 class="mb-0" id="new-users">0</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                    <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted mb-1">库存告急</h6>
+                    <h4 class="mb-0 text-danger" id="stock-warning">0</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 py-3">
+                <h5 class="card-title mb-0 fw-bold">最新上架商品</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover align-middle" id="recent-goods-table">
+                    <thead class="table-light">
+                    <tr>
+                        <th>图片</th>
+                        <th>名称</th>
+                        <th>价格</th>
+                        <th>库存</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 py-3">
+                <h5 class="card-title mb-0 fw-bold">快捷入口</h5>
+            </div>
+            <div class="card-body d-grid gap-2">
+                <button class="btn btn-outline-primary text-start py-3"
+                        onclick="switchPage('product_add.html', '发布商品')">
+                    <i class="fas fa-plus-circle me-2"></i> 发布新商品
+                </button>
+
+                <button class="btn btn-outline-secondary text-start py-3"
+                        onclick="switchPage('category_list.html', '分类管理')">
+                    <i class="fas fa-tags me-2"></i> 管理分类
+                </button>
+
+                <button class="btn btn-outline-success text-start py-3"
+                        onclick="switchPage('report_list.html', '财务报表')">
+                    <i class="fas fa-file-invoice-dollar me-2"></i> 导出财务报表
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/pet_manage/static/js/dashboard.js"></script>
+<script src="/pet_manage/static/js/index.js"></script>
