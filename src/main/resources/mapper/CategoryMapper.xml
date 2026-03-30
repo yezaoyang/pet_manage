@@ -13,7 +13,19 @@
         <result property="cateId" column="cate_id" />
         <result property="parentName" column="parent_name" />
     </resultMap>
-
+    <select id="list" resultMap="CategoryResultMap">
+        SELECT
+        c1.*,
+        c2.name AS parent_name
+        FROM category c1
+        LEFT JOIN category c2 ON c1.cate_id = c2.id
+        <where>
+            <if test="id != null and id != ''">AND c1.id = #{id}</if>
+            <if test="name != null and name != ''">AND c1.name LIKE CONCAT('%', #{name}, '%')</if>
+            <if test="level != null and level != ''">AND c1.level = #{level}</if>
+        </where>
+        ORDER BY c1.level ASC, c1.id DESC
+    </select>
     <select id="findAllWithParent" resultMap="CategoryResultMap">
         SELECT
         c1.*,
