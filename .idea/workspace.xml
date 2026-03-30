@@ -9,30 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15c87bd4-fb10-47c6-ba46-1c0214530a63" name="更改" comment="管理界面框架">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/controller/CategoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/dao/CategoryMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/entity/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/service/CategoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/service/serviceImpl/CategoryServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/CategoryMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/category_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js/category_list.js" afterDir="false" />
+    <list default="true" id="15c87bd4-fb10-47c6-ba46-1c0214530a63" name="更改" comment="用户管理，分类管理">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/memberManage/controller/LoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/userManage/controller/LoginInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/memberManage/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/userManage/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/memberManage/dao/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/userManage/dao/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/memberManage/entity/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/userManage/entity/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/memberManage/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/userManage/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/memberManage/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/userManage/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/memberManage/service/serviceImpl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/userManage/service/serviceImpl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/dao/CategoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/dao/CategoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/service/serviceImpl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modules/categoryManage/service/serviceImpl/CategoryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/applicationContext.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/spring-mvc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/spring-mvc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/CategoryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/CategoryMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/category_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/category_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/user_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/admin-layout.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/admin-layout.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/category_list.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/category_list.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/user_list.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/user_list.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,6 +246,8 @@
       <workItem from="1773896716970" duration="2183000" />
       <workItem from="1774248315847" duration="1918000" />
       <workItem from="1774250326489" duration="12855000" />
+      <workItem from="1774418926623" duration="4100000" />
+      <workItem from="1774871242257" duration="9386000" />
     </task>
     <task id="LOCAL-00001" summary="初始项目框架">
       <option name="closed" value="true" />
@@ -281,7 +273,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773909039140</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="用户管理，分类管理">
+      <option name="closed" value="true" />
+      <created>1774347744167</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1774347744167</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,7 +315,8 @@
     <MESSAGE value="测试提交" />
     <MESSAGE value="修改项目结构为多模块" />
     <MESSAGE value="管理界面框架" />
-    <option name="LAST_COMMIT_MESSAGE" value="管理界面框架" />
+    <MESSAGE value="用户管理，分类管理" />
+    <option name="LAST_COMMIT_MESSAGE" value="用户管理，分类管理" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

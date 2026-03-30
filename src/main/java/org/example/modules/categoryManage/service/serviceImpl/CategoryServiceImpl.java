@@ -16,6 +16,10 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
+    public List<Category> list(){
+        return categoryMapper.list();
+    }
+    @Override
     public List<Category> getAllWithParent(int offset, int size, Integer id, String name, String level) {
         return categoryMapper.findAllWithParent(offset, size, id, name, level);
     }

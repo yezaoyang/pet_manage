@@ -2,21 +2,15 @@ function switchPage(pageName, menuTitle) {
     const pureName = pageName.replace(".html", "");
     const apiUrl = "admin/loadPage/" + pureName;
 
-    // --- 新增：自动同步侧边栏高亮 ---
-    // 找到 data-page 属性包含该文件名的菜单项
+    // --- 1. 处理侧边栏高亮 ---
     const $targetMenu = $(`.menu-item[data-page*="${pureName}"]`);
+    $(".menu-item").removeClass("active");
     if ($targetMenu.length > 0) {
-        $(".menu-item").removeClass("active"); // 移除其他高亮
-        $targetMenu.addClass("active");        // 激活当前高亮
-
-        // 如果你的菜单在折叠面板里（如：商品管理下有子菜单），还需要展开父级
+        $targetMenu.addClass("active");
         $targetMenu.parents('.collapse').addClass('show');
-    }else {
-        // 如果是个人中心等不在菜单里的页面，移除所有侧边栏高亮
-        $(".menu-item").removeClass("active");
     }
-    // ----------------------------
 
+    // --- 2. 加载页面内容 ---
     $("#main-container").load(apiUrl, function(response, status, xhr) {
         if (status === "error") {
             if (xhr.status === 401 || xhr.status === 302) {
@@ -24,23 +18,38 @@ function switchPage(pageName, menuTitle) {
             } else {
                 $("#main-container").html("<div class='alert alert-danger'>页面加载失败</div>");
             }
-        } else {
-            // 如果传入了标题则更新，没传则尝试从菜单项获取
-            const title = menuTitle || $targetMenu.text().trim();
-            if (title) window.updateBreadcrumb(title);
+            return;
+        }
 
-            // 模块初始化逻辑...
-            if (pageName.includes("category_list")) {
-                if (typeof loadCategoryList === "function") loadCategoryList(1);
-            }
-            // 模块初始化逻辑...
-            if (pageName.includes("user_list")) {
-                if (typeof initUserModule === "function") initUserModule();
-            }
+        // --- 3. 更新面包屑 ---
+        const title = menuTitle || $targetMenu.text().trim();
+        if (title) window.updateBreadcrumb(title);
+
+        // --- 4. 动态加载 JS 并初始化 ---
+        // 我们约定：JS 文件名必须和页面名一致，例如 user_list.html 对应 user_list.js
+        const scriptPath = "../js/" + pureName + ".js";
+
+        // 检查该模块是否需要专门的 JS 初始化
+        const modulesNeedingJs = ["user_list", "category_list", "good_list"];
+
+        if (modulesNeedingJs.includes(pureName)) {
+            $.getScript(scriptPath)
+                .done(function() {
+                    console.log(pureName + ".js 加载成功");
+                    // 统一执行初始化
+                    if (pureName === "user_list" && typeof initUserModule === "function") {
+                        initUserModule();
+                    }
+                    if (pureName === "category_list" && typeof loadCategoryList === "function") {
+                        loadCategoryList(1);
+                    }
+                })
+                .fail(function() {
+                    console.error("加载脚本失败: " + scriptPath);
+                });
         }
     });
 }
-
 $(function() {
     // 定义切换页面的函数
 

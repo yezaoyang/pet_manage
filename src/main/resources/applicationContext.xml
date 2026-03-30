@@ -30,7 +30,10 @@
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
         <property name="configuration">
             <bean class="org.apache.ibatis.session.Configuration">
+<!--                命名映射-->
                 <property name="mapUnderscoreToCamelCase" value="true"/>
+<!--                开启二级缓存-->
+                <property name="cacheEnabled" value="true"/>
             </bean>
         </property>
     </bean>

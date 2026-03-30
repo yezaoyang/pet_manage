@@ -1,5 +1,9 @@
 <head>
   <link rel="stylesheet" href="/pet_manage/static/css/admin-layout.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@ztree/ztree_v3@3.5.48/js/jquery.ztree.all.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ztree/ztree_v3@3.5.48/css/zTreeStyle/zTreeStyle.css">
 </head>
 <div class="card-body border-bottom">
   <form class="form-inline" id="searchForm">
@@ -35,8 +39,8 @@
   <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
       <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-tags"></i> 分类管理</h6>
-      <button class="btn btn-primary btn-sm" onclick="showAddCategoryModal()">
-        <i class="fa fa-plus"></i> 新增分类
+      <button class="btn btn-primary btn-sm px-3" id="btnAddCategory" onclick="showAddCategoryModal()">
+        <i class="fas fa-plus me-1"></i> 新增分类
       </button>
     </div>
     <div class="card-body">
@@ -60,35 +64,43 @@
   </div>
 </div>
 
-<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle">新增分类</h5>
-        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title" id="modalTitle font-weight-bold">分类信息</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="categoryForm">
-          <input type="hidden" id="cat_id">
+          <input type="hidden" id="cat_id" name="id">
+
           <div class="form-group">
-            <label>分类名称</label>
-            <input type="text" class="form-control" id="cat_name" required>
+            <label class="small font-weight-bold">分类名称 <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="cat_name" name="name" required placeholder="例如：猫咪用品">
+          </div>
+
+          <div class="form-group">
+            <label class="small font-weight-bold">上级分类 (可选)</label>
+            <div class="input-group">
+              <input type="text" id="parent_name" class="form-control" readonly placeholder="请选择上级分类" onclick="showMenu();">
+              <input type="hidden" id="cat_parent" name="parentId"> <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" onclick="clearParent();">×</button>
+            </div>
+            </div>
+            <div id="menuContent" class="menuContent shadow" style="display:none; position: absolute; z-index: 1100; background: #fff; border: 1px solid #ccc; max-height: 200px; overflow-y: auto; width: 92%;">
+              <ul id="treeDemo" class="ztree"></ul>
+            </div>
           </div>
           <div class="form-group">
-            <label>上级分类 (不选则为顶级大类)</label>
-            <select class="form-control" id="cat_parent">
-              <option value="0">--- 顶级大类 ---</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>描述</label>
-            <textarea class="form-control" id="cat_description" rows="3"></textarea>
+            <label class="small font-weight-bold">分类描述</label>
+            <textarea class="form-control" id="cat_description" name="description" rows="3" placeholder="简述该分类的用途..."></textarea>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" onclick="saveCategory()">保存</button>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="saveCategory()">确认保存</button>
       </div>
     </div>
   </div>
@@ -100,7 +112,8 @@
     </ul>
   </nav>
 </div>
-<script src=js/category_list.js"></script>
+<script src="/static/js/category_list.js"></script>
+
 <style>
   /* 让搜索框之间保持呼吸间距 */
   .form-inline .form-group {
