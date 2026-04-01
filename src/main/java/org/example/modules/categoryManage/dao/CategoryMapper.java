@@ -5,6 +5,7 @@ import org.example.modules.categoryManage.entity.Category;
 import java.util.List;
 
 public interface CategoryMapper {
+    List<Category> list();
     List<Category> findAllWithParent(
             @Param("offset") int offset,
             @Param("size") int size,

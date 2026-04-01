@@ -4,7 +4,6 @@ function initCategoryModule() {
 
 let currentPage = 1;
 const pageSize = 5; // 每页显示8条记录
-
 function loadCategoryList(page = 1) {
     currentPage = page;
     const params = {
@@ -103,4 +102,73 @@ function saveCategory() {
         }
     });
 }
+// 下拉框树展示
+const setting = {
+    view: { dblClickExpand: false, selectedMulti: false },
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "cateId", // 对应你后端的 parentId 字段
+            rootPId: 0
+        },
+        key: { name: "name" }
+    },
+    callback: { onClick: onTreeClick }
+};
 
+// 点击树节点的逻辑
+function onTreeClick(e, treeId, treeNode) {
+    $("#parent_name").val(treeNode.name);
+    $("#cat_parent").val(treeNode.id);
+    hideMenu();
+}
+
+// 展现/隐藏菜单
+function showMenu() {
+    $("#menuContent").slideDown("fast");
+    $("body").bind("mousedown", onBodyDown);
+}
+function hideMenu() {
+    $("#menuContent").fadeOut("fast");
+    $("body").unbind("mousedown", onBodyDown);
+}
+function onBodyDown(event) {
+    if (!(event.target.id == "parent_name" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+        hideMenu();
+    }
+}
+function clearParent() {
+    $("#parent_name").val("");
+    $("#cat_parent").val(0);
+}
+window.initCategoryTree = function() {
+    $.get("/api/category/listAll", function(res) {
+        if (res.code === 200) {
+            const processedData = res.data.map(item => ({
+                ...item,
+                id: Number(item.id),
+                cateId: Number(item.cateId)
+            }));
+            // zTree 支持简单数组格式，只要有 id 和 parentId 就能自动成树
+            $.fn.zTree.init($("#treeDemo"), setting, processedData);
+            // 自动展开所有节点（方便调试看子类出没出来）
+            const treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            treeObj.expandAll(true);
+        }
+    });
+};
+// 在打开新增弹窗时调用
+ function showAddCategoryModal() {
+    $("#modalTitle").text("新增分类");
+    $("#categoryForm")[0].reset();
+    $("#cat_id").val("");
+
+    // 清除 Select2 的选中状态
+    $("#cat_parent").val(null).trigger('change');
+
+    // 初始化/刷新下拉列表
+     initCategoryTree();
+
+    $("#categoryModal").modal("show");
+};
