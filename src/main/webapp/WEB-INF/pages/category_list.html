@@ -23,6 +23,8 @@
         <option value="">-- 全部级别 --</option>
         <option value="1">一级大类</option>
         <option value="2">二级子类</option>
+        <option value="3">三级子类</option>
+
       </select>
     </div>
     <div style="margin-bottom: 11px;">
@@ -84,7 +86,8 @@
             <label class="small font-weight-bold">上级分类 (可选)</label>
             <div class="input-group">
               <input type="text" id="parent_name" class="form-control" readonly placeholder="请选择上级分类" onclick="showMenu();">
-              <input type="hidden" id="cat_parent" name="parentId"> <div class="input-group-append">
+              <input type="hidden" id="cat_parent" name="cateId" value="0">
+              <input type="hidden" id="cat_level" name="level" value="1"> <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button" onclick="clearParent();">×</button>
             </div>
             </div>

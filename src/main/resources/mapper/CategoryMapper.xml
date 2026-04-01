@@ -53,7 +53,7 @@
     <insert id="insert" parameterType="org.example.modules.categoryManage.entity.Category"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO category (name, description, cate_id,level)
-        VALUES (#{name}, #{description}, #{cateId}),#{level)
+        VALUES (#{name}, #{description}, #{cateId},#{level})
     </insert>
 
     <update id="update" parameterType="org.example.modules.categoryManage.entity.Category">
