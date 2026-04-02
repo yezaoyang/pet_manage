@@ -1,4 +1,5 @@
 function initCategoryModule() {
+    initCategoryTree();
     loadCategoryList();
 }
 
@@ -27,17 +28,17 @@ function renderTable(categories) {
     let html = '';
     // 渲染表格
     categories.forEach(item => {
-        let levelName="";
-        switch (item.level) {
-            case "1": levelName="一级大类";break;
-            case "2": levelName="二级子类";break;
-            case "3": levelName="三级子类";break;
-        }
+        // let levelName="";
+        // switch (item.level) {
+        //     case "1": levelName="一级大类";break;
+        //     case "2": levelName="二级子类";break;
+        //     case "3": levelName="三级子类";break;
+        // }
         html += `<tr>
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>${item.description || ''}</td>
-                    <td><span class="${item.level==="1" ? 'label label-success' : 'label label-info'}">${levelName}</span></td>
+                    <td><span class="${item.level==="1" ? 'label label-success' : 'label label-info'}">${item.level}级分类</span></td>
                     <td>${item.parentName || ''}</td>
                     <td>
                         <button class="btn btn-info btn-xs" onclick="editCategory(${JSON.stringify(item).replace(/"/g, '&quot;')})">编辑</button>
@@ -157,9 +158,24 @@ function clearParent() {
     $("#parent_name").val("");
     $("#cat_parent").val(0);
 }
-window.initCategoryTree = function() {
+// 分类下拉框初始化和新增框中树初始化
+ function initCategoryTree() {
     $.get("/api/category/listAll", function(res) {
         if (res.code === 200) {
+            var $select = $("#search_level");
+            // 先清空除了第一个默认项以外的所有选项
+            $select.find("option:not(:first)").remove();
+            // 清洗数据表的类别信息
+            const uniqueLevels = [...new Set(res.data.map(item => item.level))]
+                .filter(lv => lv !== null && lv !== undefined && lv !== "")
+                .sort((a, b) => parseInt(a) - parseInt(b)); // 升序排序
+            uniqueLevels.forEach(lv=>{
+                if (lv) {
+                    // 动态拼接展示文本：数字 + "级"
+                    var text = lv + " 级分类";
+                    $select.append(`<option value="${lv}">${text}</option>`);
+                }
+            })
             const processedData = res.data.map(item => ({
                 ...item,
                 id: Number(item.id),
@@ -188,7 +204,6 @@ window.initCategoryTree = function() {
     $("#categoryModal").modal("show");
 };
  function editCategory(item) {
-     console.log(item)
     $("#modalTitle").text("编辑分类");
     $("#categoryForm")[0].reset(); // 先重置表单
 
