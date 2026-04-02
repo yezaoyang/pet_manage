@@ -41,7 +41,7 @@ function switchPage(pageName, menuTitle) {
                         initUserModule();
                     }
                     if (pureName === "category_list" && typeof loadCategoryList === "function") {
-                        loadCategoryList(1);
+                        initCategoryModule()
                     }
                 })
                 .fail(function() {

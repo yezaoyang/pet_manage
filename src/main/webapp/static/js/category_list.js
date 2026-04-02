@@ -1,9 +1,10 @@
 function initCategoryModule() {
+    initCategoryTree();
     loadCategoryList();
 }
 
-let currentPage = 1;
-const pageSize = 5; // 每页显示8条记录
+var currentPage = 1;
+var pageSize = 5; // 每页显示8条记录
 function loadCategoryList(page = 1) {
     currentPage = page;
     const params = {
@@ -27,16 +28,17 @@ function renderTable(categories) {
     let html = '';
     // 渲染表格
     categories.forEach(item => {
-        let levelName="";
-        switch (item.level) {
-            case "1": levelName="一级大类";break;
-            case "2": levelName="二级子类";break;
-        }
+        // let levelName="";
+        // switch (item.level) {
+        //     case "1": levelName="一级大类";break;
+        //     case "2": levelName="二级子类";break;
+        //     case "3": levelName="三级子类";break;
+        // }
         html += `<tr>
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>${item.description || ''}</td>
-                    <td><span class="${item.level==="1" ? 'label label-success' : 'label label-info'}">${levelName}</span></td>
+                    <td><span class="${item.level==="1" ? 'label label-success' : 'label label-info'}">${item.level}级分类</span></td>
                     <td>${item.parentName || ''}</td>
                     <td>
                         <button class="btn btn-info btn-xs" onclick="editCategory(${JSON.stringify(item).replace(/"/g, '&quot;')})">编辑</button>
@@ -84,6 +86,7 @@ function saveCategory() {
         id: $("#cat_id").val(),
         name: $("#cat_name").val(),
         cateId: $("#cat_parent").val(),
+        level: $("#cat_level").val(),
         description: $("#cat_description").val()
     };
 
@@ -103,13 +106,13 @@ function saveCategory() {
     });
 }
 // 下拉框树展示
-const setting = {
+var setting = {
     view: { dblClickExpand: false, selectedMulti: false },
     data: {
         simpleData: {
             enable: true,
             idKey: "id",
-            pIdKey: "cateId", // 对应你后端的 parentId 字段
+            pIdKey: "cateId",
             rootPId: 0
         },
         key: { name: "name" }
@@ -119,8 +122,21 @@ const setting = {
 
 // 点击树节点的逻辑
 function onTreeClick(e, treeId, treeNode) {
+    // 1. 获取选中节点的名称和ID
     $("#parent_name").val(treeNode.name);
     $("#cat_parent").val(treeNode.id);
+console.log(treeNode)
+    // 2. 核心逻辑：计算当前“新增分类”的级别
+    // 如果选中的是父类，那么当前新增的子类级别 = 父类级别 + 1
+    let parentLevel = treeNode.level; // 这里的 level 是数据库带出来的字段
+
+    // 注意：如果数据库存的是 1, 2... 而不是从0开始，请根据你的业务逻辑加减
+    // 由于数据库的level被tree自带的level覆盖，所以用tree的默认父级为0来计算
+    let currentLevel = parseInt(parentLevel) + 2;
+
+    $("#cat_level").val(currentLevel); // 存入隐藏域
+
+
     hideMenu();
 }
 
@@ -142,9 +158,24 @@ function clearParent() {
     $("#parent_name").val("");
     $("#cat_parent").val(0);
 }
-window.initCategoryTree = function() {
+// 分类下拉框初始化和新增框中树初始化
+ function initCategoryTree() {
     $.get("/api/category/listAll", function(res) {
         if (res.code === 200) {
+            var $select = $("#search_level");
+            // 先清空除了第一个默认项以外的所有选项
+            $select.find("option:not(:first)").remove();
+            // 清洗数据表的类别信息
+            const uniqueLevels = [...new Set(res.data.map(item => item.level))]
+                .filter(lv => lv !== null && lv !== undefined && lv !== "")
+                .sort((a, b) => parseInt(a) - parseInt(b)); // 升序排序
+            uniqueLevels.forEach(lv=>{
+                if (lv) {
+                    // 动态拼接展示文本：数字 + "级"
+                    var text = lv + " 级分类";
+                    $select.append(`<option value="${lv}">${text}</option>`);
+                }
+            })
             const processedData = res.data.map(item => ({
                 ...item,
                 id: Number(item.id),
@@ -170,5 +201,26 @@ window.initCategoryTree = function() {
     // 初始化/刷新下拉列表
      initCategoryTree();
 
+    $("#categoryModal").modal("show");
+};
+ function editCategory(item) {
+    $("#modalTitle").text("编辑分类");
+    $("#categoryForm")[0].reset(); // 先重置表单
+
+    // 1. 基本字段回显
+    $("#cat_id").val(item.id);
+    $("#cat_name").val(item.name);
+    $("#cat_description").val(item.description);
+
+    // 2. 层级和父级回显
+    // 注意：编辑时，level 通常保持不变，不需要像新增那样 +2
+    $("#cat_level").val(item.level);
+    $("#cat_parent").val(item.cateId || 0);
+    $("#parent_name").val(item.parentName || (item.cateId == 0 ? "顶级分类" : "无"));
+
+    // 3. 初始化树（确保下拉树可用）
+    initCategoryTree();
+
+    // 4. 显示弹窗
     $("#categoryModal").modal("show");
 };
