@@ -57,6 +57,11 @@ public class UserServiceImpl implements UserService {
         userMapper.deleteById(id);
     }
     @Override
+    public void removeByIds(List<Integer> ids) {
+        userMapper.removeByIds(ids);
+    }
+
+    @Override
     public User findByUsername(String username) {
         return userMapper.selectByUsername(username);
     }

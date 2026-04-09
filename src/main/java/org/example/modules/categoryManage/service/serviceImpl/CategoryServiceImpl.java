@@ -53,4 +53,9 @@ public class CategoryServiceImpl implements CategoryService {
         int result = categoryMapper.delete(id);
         return result > 0 ? "success" : "删除失败，记录可能已被清除";
     }
+
+    @Override
+    public void removeByIds(List<Integer> ids) {
+        categoryMapper.removeByIds(ids);
+    }
 }

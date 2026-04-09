@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+
 
 
 @RestController
@@ -81,4 +83,28 @@ public class UserController {
         return Result.success("退出成功");
     }
 
+    @PostMapping("/batchDelete")
+    public Result batchDelete(@RequestBody List<Integer> ids, HttpSession session) {
+        // 1. 基础校验：判空
+        if (ids == null || ids.isEmpty()) {
+            return Result.error("请选择要删除的数据");
+        }
+
+        // 2. 安全校验：防止自杀（禁止删除当前登录账号）
+        // 假设你存放在 Session 中的用户信息 key 为 "userInfo"
+        User currentUser = (User) session.getAttribute("loginUser");
+        if (currentUser != null && ids.contains(currentUser.getId())) {
+            return Result.error("批量删除中包含当前登录账号，请取消勾选后重试");
+        }
+
+        // 3. 权限校验：只有超级管理员能删除（假设 1 是超管）
+        if (currentUser == null || currentUser.getRole() != 1) {
+            return Result.error("权限不足，只有超级管理员可执行此操作");
+        }
+
+        // 4. 执行删除
+        userService.removeByIds(ids);
+
+       return Result.success();
+    }
 }
