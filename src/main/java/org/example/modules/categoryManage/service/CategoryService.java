@@ -29,4 +29,7 @@ public interface CategoryService {
     String deleteCategory(Integer id);
 
     int count(Integer id, String name, String level);
+
+    void removeByIds(List<Integer> ids);
+
 }

@@ -27,7 +27,7 @@ function loadCategoryList(page = 1) {
 function renderTable(categories) {
     let html = '';
     // 渲染表格
-    categories.forEach(item => {
+    categories.forEach((item,index) => {
         // let levelName="";
         // switch (item.level) {
         //     case "1": levelName="一级大类";break;
@@ -35,6 +35,10 @@ function renderTable(categories) {
         //     case "3": levelName="三级子类";break;
         // }
         html += `<tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input user-check" value="${item.id}" onclick="updateBatchBtnStatus()">
+                    </td>
+                    <td>${index+1}</td>
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>${item.description || ''}</td>
@@ -188,7 +192,7 @@ function clearParent() {
             treeObj.expandAll(true);
         }
     });
-};
+}
 // 在打开新增弹窗时调用
  function showAddCategoryModal() {
     $("#modalTitle").text("新增分类");
@@ -202,7 +206,7 @@ function clearParent() {
      initCategoryTree();
 
     $("#categoryModal").modal("show");
-};
+}
  function editCategory(item) {
     $("#modalTitle").text("编辑分类");
     $("#categoryForm")[0].reset(); // 先重置表单
@@ -223,4 +227,64 @@ function clearParent() {
 
     // 4. 显示弹窗
     $("#categoryModal").modal("show");
-};
+}
+/**
+ * 全选/反选
+ */
+function toggleAll(obj) {
+    const isChecked = $(obj).prop("checked");
+    $(".user-check").prop("checked", isChecked);
+    updateBatchBtnStatus();
+}
+
+/**
+ * 更新批量删除按钮的可操作状态
+ */
+function updateBatchBtnStatus() {
+    // 获取选中的复选框数量
+    const checkedCount = $(".user-check:checked").length;
+
+    // 如果选中数量 > 0，且当前用户有权限（role === 1），则解除禁用
+    if (checkedCount > 0) {
+        $("#btnBatchDelete").prop("disabled", false);
+    } else {
+        $("#btnBatchDelete").prop("disabled", true);
+    }
+}
+
+/**
+ * 批量删除执行逻辑
+ */
+function batchDeleteUsers() {
+    let ids = [];
+    $(".user-check:checked").each(function() {
+        ids.push(parseInt($(this).val()));
+    });
+
+    if (ids.length === 0) return;
+
+    if (!confirm(`确定要删除选中的 ${ids.length} 个分类吗？`)) {
+        return;
+    }
+    if (!confirm(`是否确认删除这 ${ids.length} 个分类,即便其中可能包含高级类别？`)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/api/category/batchDelete",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(ids),
+        success: function(res) {
+            if (res.code === 200) {
+                alert("批量删除成功");
+                initCategoryModule(); // 重新加载数据
+                // 关键：重置全选框和按钮状态
+                $("#checkAll").prop("checked", false);
+                $("#btnBatchDelete").prop("disabled", true);
+            } else {
+                alert("操作失败：" + res.msg);
+            }
+        }
+    });
+}

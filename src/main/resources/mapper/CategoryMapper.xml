@@ -75,4 +75,12 @@
         SELECT COUNT(*) FROM category WHERE cate_id = #{id}
     </select>
 
+    <delete id="removeByIds">
+        DELETE FROM category
+        WHERE id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

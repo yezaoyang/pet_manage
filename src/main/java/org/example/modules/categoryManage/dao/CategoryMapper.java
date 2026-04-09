@@ -22,4 +22,7 @@ public interface CategoryMapper {
             @Param("id") Integer id,
             @Param("name") String name,
             @Param("level") String level
-    );}
+    );
+    void removeByIds(List<Integer> ids);
+
+}
