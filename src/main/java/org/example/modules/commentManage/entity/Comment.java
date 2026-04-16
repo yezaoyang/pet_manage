@@ -1,44 +1,58 @@
 package org.example.modules.commentManage.entity;
 
+
+
+import java.util.Date;
+
+
 public class Comment {
-    private Long id;
-    private Long goodId;
-    private Long orderId;
-    private Long customerId;
+    private Integer id;
+    private Integer orderId;
+    private Integer goodId;
+    private Integer customerId;
     private Integer score;
     private String content;
     private String imgUrls;
     private Integer commentStatus;
+    private Date createTime;
 
-    public Long getId() {
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getGoodId() {
-        return goodId;
-    }
-
-    public void setGoodId(Long goodId) {
-        this.goodId = goodId;
-    }
-
-    public Long getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    public Long getCustomerId() {
+    public Integer getGoodId() {
+        return goodId;
+    }
+
+    public void setGoodId(Integer goodId) {
+        this.goodId = goodId;
+    }
+
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
@@ -73,5 +87,4 @@ public class Comment {
     public void setCommentStatus(Integer commentStatus) {
         this.commentStatus = commentStatus;
     }
-    // getter setter
 }

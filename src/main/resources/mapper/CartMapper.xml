@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.modules.cartManage.dao.CartMapper">
+
+    <!-- 通用结果集映射 -->
+    <resultMap id="CartResultMap" type="org.example.modules.cartManage.entity.Cart">
+        <id column="id" property="id"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="good_id" property="goodId"/>
+        <result column="quantity" property="quantity"/>
+    </resultMap>
+
+    <!-- 新增购物车项 -->
+    <insert id="insertCart" parameterType="org.example.modules.cartManage.entity.Cart">
+        INSERT INTO cart (customer_id, good_id, quantity)
+        VALUES (#{customerId}, #{goodId}, #{quantity})
+    </insert>
+
+    <!-- 根据用户ID和商品ID查询 -->
+    <select id="selectCartByUserIdAndGoodsId" resultMap="CartResultMap">
+        SELECT * FROM cart WHERE customer_id = #{customerId} AND good_id = #{goodId}
+    </select>
+
+    <!-- 更新数量 -->
+    <update id="updateQuantityById">
+        UPDATE cart
+        SET quantity = #{quantity}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据用户ID查询列表 -->
+    <select id="selectCartListByUserId" resultMap="CartResultMap">
+        SELECT * FROM cart WHERE customer_id = #{customerId}
+    </select>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteCartById">
+        DELETE FROM cart WHERE id = #{id}
+    </delete>
+
+    <!-- 清空用户购物车 -->
+    <delete id="deleteCartByUserId">
+        DELETE FROM cart WHERE customer_id = #{customerId}
+    </delete>
+</mapper>
