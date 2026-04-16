@@ -3,34 +3,34 @@ package org.example.modules.orderItemManage.entity;
 import java.math.BigDecimal;
 
 public class OrderItem {
-    private Long id;
-    private Long orderId;
-    private Long goodId;
+    private Integer id;
+    private Integer orderId;
+    private Integer goodId;
     private String goodName;
     private BigDecimal price;
     private Integer quantity;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    public Long getGoodId() {
+    public Integer getGoodId() {
         return goodId;
     }
 
-    public void setGoodId(Long goodId) {
+    public void setGoodId(Integer goodId) {
         this.goodId = goodId;
     }
 
@@ -57,5 +57,4 @@ public class OrderItem {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    // getter setter
 }

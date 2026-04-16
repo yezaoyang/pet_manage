@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.modules.commentManage.dao.CommentMapper">
+
+    <!-- 通用结果集映射：字段名 ↔ 属性名 -->
+    <resultMap id="CommentResultMap" type="org.example.modules.commentManage.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="good_id" property="goodId"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="score" property="score"/>
+        <result column="content" property="content"/>
+        <result column="img_urls" property="imgUrls"/>
+        <result column="comment_status" property="commentStatus"/>
+    </resultMap>
+
+    <!-- 1. 根据商品ID查询评价（默认只查已发布：comment_status=1） -->
+    <select id="selectByGoodId" resultMap="CommentResultMap">
+        SELECT * FROM comment
+        WHERE good_id = #{goodId}
+          AND comment_status = 1
+        ORDER BY id DESC
+    </select>
+
+    <!-- 2. 根据订单ID查询评价 -->
+    <select id="selectByOrderId" resultMap="CommentResultMap">
+        SELECT * FROM comment
+        WHERE order_id = #{orderId}
+    </select>
+
+    <!-- 3. 新增评价（自动生成主键） -->
+    <insert id="insert" parameterType="org.example.modules.commentManage.entity.Comment"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comment (order_id, good_id, customer_id, score, content, img_urls, comment_status)
+        VALUES (#{orderId}, #{goodId}, #{customerId}, #{score}, #{content}, #{imgUrls}, #{commentStatus})
+    </insert>
+
+    <!-- 4. 删除评价（物理删除；若要逻辑删除，改为UPDATE SET comment_status=2） -->
+    <delete id="deleteById">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+
+</mapper>

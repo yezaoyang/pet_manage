@@ -1,41 +1,45 @@
 package org.example.modules.cartManage.entity;
 
-public class Cart {
-    private Integer id;
-    private Integer customerId;
-    private Integer goodId;
-    private Integer quantity;
+    public class Cart {
+        private Integer id;
+        private Integer customerId;
+        private Integer goodId;
+        private Integer quantity;
 
-    public Integer getId() {
-        return id;
-    }
+        public Cart(Integer customerId, Integer goodId, Integer quantity) {
+        }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+        public Integer getId() {
+            return id;
+        }
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
+        public void setId(Integer id) {
+            this.id = id;
+        }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+        public Integer getGoodId() {
+            return goodId;
+        }
 
-    public Integer getGoodId() {
-        return goodId;
-    }
+        public void setGoodId(Integer goodId) {
+            this.goodId = goodId;
+        }
 
-    public void setGoodId(Integer goodId) {
-        this.goodId = goodId;
-    }
+        public Integer getCustomerId() {
+            return customerId;
+        }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+        public void setCustomerId(Integer customerId) {
+            this.customerId = customerId;
+        }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-    // getter setter
-}
+        public Integer getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(Integer quantity) {
+            this.quantity = quantity;
+
+
+        }
+        }
