@@ -19,7 +19,7 @@ function loadCategoryList(page = 1) {
         if (res.code === 200) {
             renderTable(res.data.list);    // 渲染表格
             renderPagination(res.data.total); // 渲染分页条
-            $("#pageInfo").text(`第 ${currentPage} 页，共 ${res.data.total} 条`);
+            $("#pageInfo").text(`第 ${currentPage} 页，共 ${res.data.total} 条记录`);
         }
     });
 }

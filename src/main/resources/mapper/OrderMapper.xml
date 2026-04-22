@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.modules.orderManage.dao.OrderMapper">
+
+    <resultMap id="OrderDetailMap" type="org.example.modules.orderManage.entity.Order">
+        <id property="id" column="id" />
+        <result property="orderNo" column="order_no" />
+        <result property="customerId" column="customer_id" />
+        <result property="receiverAddress" column="receiver_address" />
+        <result property="totalPrice" column="total_price" />
+        <result property="createTime" column="create_time" />
+        <collection property="orderItemList" ofType="org.example.modules.orderManage.entity.OrderItem">
+            <id property="id" column="item_id" />
+            <result property="goodId" column="good_id" />
+            <result property="goodName" column="good_name" />
+            <result property="price" column="item_price" />
+            <result property="quantity" column="quantity" />
+        </collection>
+    </resultMap>
+
+    <select id="selectOrderList" resultType="org.example.modules.orderManage.entity.Order">
+        SELECT * FROM `order`
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="customerId != null">
+                AND customer_id = #{customerId}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectOrderCount" resultType="int">
+        SELECT COUNT(*) FROM `order`
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="customerId != null">
+                AND customer_id = #{customerId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderById" resultMap="OrderDetailMap">
+        SELECT
+            o.*,
+            oi.id as item_id,
+            oi.good_id,
+            oi.good_name,
+            oi.price as item_price,
+            oi.quantity
+        FROM `order` o
+                 LEFT JOIN order_item oi ON o.id = oi.order_id
+        WHERE o.id = #{id}
+    </select>
+
+    <delete id="deleteOrderById">
+        DELETE FROM `order` WHERE id = #{id}
+    </delete>
+
+</mapper>

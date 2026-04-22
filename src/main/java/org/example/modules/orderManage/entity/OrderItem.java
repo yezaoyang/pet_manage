@@ -1,10 +1,10 @@
-package org.example.modules.orderItemManage.entity;
+package org.example.modules.orderManage.entity;
 
 import java.math.BigDecimal;
 
 public class OrderItem {
     private Integer id;
-    private Integer orderId;
+    private String orderId;
     private Integer goodId;
     private String goodName;
     private BigDecimal price;
@@ -18,11 +18,11 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

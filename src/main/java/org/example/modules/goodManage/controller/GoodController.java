@@ -5,47 +5,73 @@ import org.example.modules.goodManage.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * 使用 @RestController 替代 @Controller
- * 这样类中所有方法都会直接返回数据给前端，不再跳转 JSP
- */
 @RestController
 @RequestMapping("/api/good")
-@CrossOrigin(origins = "*") // 允许跨域，方便前端调试
 public class GoodController {
 
     @Autowired
-    private GoodService petService;
+    private GoodService goodService;
 
-    // 获取所有宠物列表
     @GetMapping("/list")
-    public List<Good> list() {
-        return petService.getAllActivePets();
+    public Map<String, Object> list(@RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "5") int size,
+                                    @RequestParam(required = false) String name) {
+        int offset = (page - 1) * size;
+        Map<String, Object> data = new HashMap<>();
+        data.put("list", goodService.getGoodList(offset, size, name));
+        data.put("total", goodService.getGoodCount(name));
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", 200);
+        res.put("data", data);
+        return res;
     }
 
-    // 根据 ID 获取宠物详情
-    @GetMapping("/getById")
-    public Good getById(@RequestParam("id") Integer id) {
-        return petService.getPetById(id);
-    }
-
-    // 删除宠物接口示例
-    @PostMapping("/delete")
-    public String delete(@RequestParam("id") Integer id) {
-        // 这里调用 service 的删除逻辑
-        // petService.deleteById(id);
-        return "success";
-    }
-
-    // 切换上下架状态的接口
     @PostMapping("/toggleSale")
-    public String toggleSale(@RequestParam("id") Integer id, @RequestParam("status") Integer status) {
-        // status: 1 为上架，0 为下架
-        Good good = petService.getPetById(id);
+    public Map<String, Object> toggleSale(@RequestParam Long id, @RequestParam Integer status) {
+        Good good = new Good();
+        good.setId(id);
         good.setIsOnSale(status);
-        petService.update(good);
-        return "success";
+        boolean success = goodService.updateGood(good);
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", success ? 200 : 500);
+        res.put("msg", success ? "操作成功" : "操作失败");
+        return res;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Map<String, Object> delete(@PathVariable Long id) {
+        boolean success = goodService.deleteGood(id);
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", success ? 200 : 500);
+        return res;
+    }
+
+    @PostMapping("/add")
+    public Map<String, Object> add(@RequestBody Good good) {
+        boolean success = goodService.addGood(good);
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", success ? 200 : 500);
+        res.put("msg", success ? "新增成功" : "新增失败");
+        return res;
+    }
+
+    @PostMapping("/update")
+    public Map<String, Object> update(@RequestBody Good good) {
+        boolean success = goodService.updateGood(good);
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", success ? 200 : 500);
+        res.put("msg", success ? "修改成功" : "修改失败");
+        return res;
+    }
+
+    @GetMapping("/getById")
+    public Good getById(@RequestParam Long id) {
+        // 直接返回对象，前端 jQuery 会自动解析
+        return goodService.getById(id);
     }
 }

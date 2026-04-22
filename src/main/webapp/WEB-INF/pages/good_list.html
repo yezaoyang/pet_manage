@@ -1,112 +1,116 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>宠物管理系统</title>
-  <link rel="stylesheet" type="text/css" href="../css/good-list.css">
-  <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/admin-layout.css">
+  <link rel="stylesheet" href="/static/css/good-list.css">
+
 </head>
-<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="#">🐾 PetManage Pro</a>
-</nav>
-
-<div class="container">
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <h3>宠物档案列表</h3>
+<div class="card-body border-bottom bg-light">
+  <form class="form-inline" id="searchForm">
+    <div class="row w-100">
+      <div class="col-md-3">
+        <input type="text" class="form-control w-100" id="search_name" placeholder="搜索商品名称...">
+      </div>
+      <div class="col-md-4">
+        <button type="button" class="btn btn-primary" onclick="loadGoodData(1)">
+          <i class="fa fa-search"></i> 查询
+        </button>
+        <button type="button" class="btn btn-outline-secondary ml-2" onclick="resetSearch()">重置</button>
+      </div>
     </div>
-    <div class="col-md-6 text-right">
-      <button class="btn btn-primary" onclick="loadPetData()">🔄 刷新列表</button>
-      <a href="/WEB-INF/pages/pet_add.html" class="btn btn-success">➕ 添加新宠物</a>
-    </div>
-  </div>
-
-  <div class="table-container">
-    <table class="table table-hover">
-      <thead class="thead-light">
-      <tr>
-        <th>#ID</th>
-        <th>宠物名称</th>
-        <th>品种</th>
-        <th>年龄 (岁)</th>
-        <th class="text-center">操作</th>
-      </tr>
-      </thead>
-      <tbody id="petTableBody">
-      <tr>
-        <td colspan="5" class="text-center text-muted">正在连接数据库，请稍候...</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  </form>
 </div>
 
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="container-fluid mt-3">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-box"></i> 商品库存管理</h6>
+      <button class="btn btn-success btn-sm" onclick="showAddModal()">
+        <i class="fa fa-plus"></i> 新增商品
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered" id="goodTable">
+          <thead class="table-light">
+          <tr>
+            <th width="60">序号</th>
+            <th width="80">图片</th>
+            <th>商品名称</th>
+            <th>所属分类</th>
+            <th>单价</th>
+            <th>库存</th>
+            <th>状态</th>
+            <th width="180">操作</th>
+          </tr>
+          </thead>
+          <tbody id="goodList">
+          </tbody>
+        </table>
+      </div>
 
-<script>
-  // 1. 页面加载完成后立即获取数据
-  $(document).ready(function() {
-    loadPetData();
-  });
-
-  // 2. 封装 Ajax 请求函数
-  function loadPetData() {
-    const $tbody = $('#petTableBody');
-
-    // 显示加载动画
-    $tbody.html('<tr><td colspan="5" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>');
-
-    $.ajax({
-      // 注意：请根据你的项目上下文路径修改此处（例如 /pet_manage/api/good/list）
-      url: 'api/good/list',
-      type: 'GET',
-      dataType: 'json',
-      success: function(data) {
-        $tbody.empty(); // 清空旧数据
-
-        if (data.length === 0) {
-          $tbody.append('<tr><td colspan="5" class="text-center">目前档案库是空的 📭</td></tr>');
-          return;
-        }
-
-        // 3. 循环拼接 HTML
-        $.each(data, function(index, good) {
-          const row = `
-                        <tr>
-                            <td>${good.id}</td>
-                            <td><strong>${good.name}</strong></td>
-                            <td><span class="badge badge-info">${good.type}</span></td>
-                            <td>${good.age}</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary mr-2" onclick="goDetail(${good.id})">查看详情</button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="deletePet(${good.id})">注销</button>
-                            </td>
-                        </tr>
-                    `;
-          $tbody.append(row);
-        });
-      },
-      error: function(xhr) {
-        $tbody.html(`<tr><td colspan="5" class="text-center text-danger">数据请求失败，请检查后端 API (状态码: ${xhr.status})</td></tr>`);
-      }
-    });
-  }
-
-  // 跳转到详情页（带上 ID 参数）
-  function goDetail(id) {
-    window.location.href = `/good_detail.html?id=${id}`;
-  }
-
-  // 删除宠物函数
-  function deletePet(id) {
-    if (confirm('确定要删除这条宠物记录吗？')) {
-      // 这里以后可以写 $.ajax({ url: 'api/good/delete', type: 'POST', ... })
-      alert('点击了删除 ID: ' + id + '。请先在后端实现相应的 Delete 接口。');
-    }
-  }
-</script>
-
-</body>
-</html>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div id="pageInfo" class="text-secondary small">显示第 1 页，共 0 条记录</div>
+        <nav>
+          <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="goodModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalTitle">新增商品</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="goodForm">
+          <input type="hidden" id="good_id">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">商品名称</label>
+              <input type="text" class="form-control" id="good_name" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">所属分类</label>
+              <select class="form-control" id="good_category" required>
+<!--                <option value="">&#45;&#45; 请选择分类 &#45;&#45;</option>-->
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="form-label">单价 (￥)</label>
+              <input type="number" step="0.01" class="form-control" id="good_price" required>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">库存数量</label>
+              <input type="number" class="form-control" id="good_stock" required>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">上架状态</label>
+              <select class="form-control" id="good_status">
+                <option value="1">已上架</option>
+                <option value="0">已下架</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">图片地址 (URL)</label>
+            <input type="text" class="form-control" id="good_image" placeholder="可输入在线图片链接">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">商品描述</label>
+            <textarea class="form-control" id="good_description" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="saveGood()">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/static/js/good_list.js"></script>
