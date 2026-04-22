@@ -1,7 +1,5 @@
 package org.example.modules.orderManage.entity;
 
-import org.example.modules.orderItemManage.entity.OrderItem;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
