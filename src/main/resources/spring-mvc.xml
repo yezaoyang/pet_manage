@@ -26,11 +26,17 @@
     <context:component-scan base-package="org.example" />
 
 
-    <mvc:resources mapping="/static/**" location="/static/" />
+    <mvc:resources mapping="/admin/**" location="/html/admin/" />
+    <mvc:resources mapping="/css/admin/**" location="/static/css/admin/" />
+    <mvc:resources mapping="/js/admin/**" location="/static/js/admin/" />
 
-    <mvc:resources mapping="/*.html" location="/html/" />
-    <mvc:resources mapping="/js/**" location="/static/js/" />
-    <mvc:resources mapping="/css/**" location="/static/css/" />
+
+    <mvc:resources mapping="/client/**" location="/html/client/" />
+    <mvc:resources mapping="/css/client/**" location="/static/css/client/" />
+    <mvc:resources mapping="/js/client/**" location="/static/js/client/" />
+
+
+    <mvc:resources mapping="/static/**" location="/static/" />
 
     <mvc:default-servlet-handler />
     <mvc:interceptors>

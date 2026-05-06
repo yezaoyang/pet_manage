@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>萌宠星球 - 2026 全球领先宠物用品商城</title>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <style>
+        /* -----------------------------------------------------------
+           1. 全局样式与基础重置 (CSS Reset - 原始原生技术)
+           ----------------------------------------------------------- */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 使用标准盒模型 */
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #FFFAF0; /* 整体背景色 */
+            color: #404040;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 零框架依赖的全局辅助类 */
+        .container {
+            max-width: 1440px; /* 限制最大宽度 */
+            margin: 0 auto;    /* 居中对齐 */
+            padding: 0 24px;   /* 左右内边距 */
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+        button { cursor: pointer; border: none; font-family: inherit; }
+
+        /* 统一的圆角 */
+        .rounded-pill { border-radius: 99px; }
+        .rounded-lg { border-radius: 12px; }
+        .rounded-2xl { border-radius: 24px; }
+        .rounded-3xl { border-radius: 32px; }
+
+        /* 使用标准过渡，不依赖框架 */
+        .transition { transition: 0.3s ease; }
+
+        /* -----------------------------------------------------------
+           2. 顶部通知栏 (CSS：原始原生技术)
+           ----------------------------------------------------------- */
+        .top-notice {
+            background-color: #6D5A72; /* 紫色背景，不引入任何类名 */
+            color: #FFFFFF;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .top-notice a {
+            text-decoration: underline;
+            margin-left: 8px;
+            font-weight: 400;
+        }
+
+        /* -----------------------------------------------------------
+           3. 导航栏 Header (布局：原生 Flexbox)
+           ----------------------------------------------------------- */
+        header {
+            position: sticky; /* 粘性定位 */
+            top: 0;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px); /* 高斯模糊效果 */
+            border-bottom: 1px solid #FFEDD5; /* 细边框 */
+            height: 80px;
+        }
+
+        .nav-content {
+            display: flex; /* 使用原生 Flexbox 布局 */
+            align-items: center; /* 垂直居中 */
+            justify-content: space-between; /* 两端对齐 */
+            height: 100%;
+        }
+
+        .logo-links, .tools-wrapper {
+            display: flex; /* 使用原生 Flexbox 水平排列图标、链接、工具 */
+            align-items: center;
+            gap: 40px; /* 间距 */
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6D5A72;
+        }
+
+        .logo-dot { color: #FF8C42; }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-weight: 500;
+            color: #4B5563;
+        }
+
+        .nav-links a:hover { color: #FF8C42; }
+
+        /* 搜索框 (布局：原始定位与盒模型) */
+        .search-bar {
+            position: relative;
+            background-color: #F3F4F6;
+            width: 256px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            background: none;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: #1F2937;
+        }
+
+        .search-icon {
+            position: absolute; /* 原始绝对定位图标 */
+            right: 12px;
+            top: 10px;
+            font-size: 20px;
+            color: #9CA3AF;
+        }
+
+        .user-avatar {
+            font-size: 24px;
+            color: #404040;
+            transition: color 0.3s ease;
+        }
+
+        .user-avatar:hover { color: #FF8C42; }
+
+        /* -----------------------------------------------------------
+           4. Hero Section - 大图 (布局：原生 Flexbox)
+           ----------------------------------------------------------- */
+        .hero { margin-top: 24px; position: relative; }
+
+        .hero-banner {
+            background-color: #FFEDD5;
+            overflow: hidden;
+            display: flex; /* 使用原生 Flexbox 处理文本和大图的关系 */
+            align-items: center;
+            aspect-ratio: 21 / 9; /* 使用原始的纵横比属性 */
+        }
+
+        .hero-text {
+            flex: 1;
+            padding-left: 80px;
+            padding-right: 20px;
+            z-index: 10;
+        }
+
+        .hero-h1 {
+            font-size: 60px;
+            font-weight: bold;
+            color: #FFFFFF;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-desc {
+            font-size: 20px;
+            color: #FFFFFF;
+            margin-bottom: 32px;
+            opacity: 0.9;
+        }
+
+        .btn-orange {
+            background: linear-gradient(135deg, #FF8C42 0%, #F4511E 100%);
+            padding: 16px 40px;
+            font-weight: bold;
+            color: #FFFFFF;
+            display: inline-block;
+            box-shadow: 0 10px 15px rgba(244, 81, 30, 0.3);
+        }
+
+        .btn-orange:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(244, 81, 30, 0.4);
+        }
+
+        .hero-img-wrapper {
+            position: absolute; /* 原始绝对定位大图 */
+            right: -8%;
+            bottom: -5%;
+            width: 60%;
+            height: 110%;
+        }
+
+        .hero-img { width: 100%; height: 100%; object-fit: contain;padding:3vh }
+
+        /* -----------------------------------------------------------
+           5. 快捷分类 (布局：原始 CSS Grid)
+           ----------------------------------------------------------- */
+        .category-section { padding: 48px 0; }
+
+        .category-grid {
+            display: grid; /* 使用原生 CSS Grid 布局 8 列 */
+            grid-template-columns: repeat(4, 1fr); /* 移动端 4 列 */
+            gap: 24px; /* 网格间距 */
+        }
+
+        /* 原始原生媒体查询，适配平板以上 */
+        @media (min-width: 768px) {
+            .category-grid { grid-template-columns: repeat(8, 1fr); /* 平板以上 8 列 */ }
+        }
+
+        .category-item {
+            display: flex; /* 内部使用 Flexbox 垂直居中 */
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .category-icon-wrapper {
+            width: 64px;
+            height: 64px;
+            background-color: #FFEDD5; /* 浅橙色背景 */
+            border-radius: 16px; /* 使用标准圆角规则 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FF8C42; /* 图标主色 */
+            transition: 0.3s ease;
+        }
+
+        .category-item:hover .category-icon-wrapper {
+            background-color: #FF8C42; /* 悬停颜色反转 */
+            color: #FFFFFF;
+        }
+
+        .category-text { font-size: 14px; font-weight: 500; color: #404040; }
+
+        /* -----------------------------------------------------------
+           6. 为您优选 - 商品卡片 (布局：原始 CSS Grid)
+           ----------------------------------------------------------- */
+        .product-section { margin-bottom: 80px; }
+
+        .section-title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #6D5A72;
+            margin-bottom: 32px;
+        }
+
+        .product-grid {
+            display: grid; /* 使用原生 CSS Grid 自动适配 */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* 自适应列宽 */
+            gap: 32px; /* 网格间距 */
+        }
+
+        .product-card {
+            background-color: #FFFFFF;
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column; /* 垂直排列内容 */
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px); /* 悬停上浮 */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .product-img-wrapper {
+            background-color: #F9FAFB;
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 1; /* 保持正方形 */
+            margin-bottom: 16px;
+        }
+
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .product-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #1F2937;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .product-bottom {
+            display: flex; /* Flexbox 水平排列价格和按钮 */
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto; /* 将底部推到底部 */
+        }
+
+        .product-price { font-color: #FF8C42; font-size: 24px; font-weight: bold; }
+
+        .purchase-btn {
+            background-color: #FFF7ED; /* 浅橙色背景 */
+            color: #FF8C42;
+            border: 1px solid #FFEDD5; /* 细橙边 */
+            padding: 8px 16px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .purchase-btn:hover { background-color: #FFEDD5; }
+
+        /* -----------------------------------------------------------
+           7. 页脚 Footer (布局：原始 CSS Grid & Flexbox)
+           ----------------------------------------------------------- */
+        footer {
+            background-color: #6D5A72; /* 紫色背景，不引入任何类名 */
+            color: #FFFFFF;
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+
+        .footer-content {
+            display: grid; /* 使用 Grid 布局页脚列 */
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自适应网格 */
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        .footer-logo-desc {
+            grid-column: span 2; /* 原始 Grid 跨列，不引入任何类名 */
+            max-width: 400px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links-title { font-weight: bold; margin-bottom: 24px; font-size: 16px; }
+
+        .footer-links {
+            color: #D1D5DB;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover { color: #FFFFFF; }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 40px;
+            text-align: center;
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-notice">
+    🐾 2026春季心宠节：全场满299包邮，智能设备立减100元！ <a href="#" onclick="showCouponToast();">立即领取优惠券</a>
+</div>
+
+<header>
+    <nav class="container nav-content">
+        <div class="logo-links">
+            <a href="index.html" class="logo">
+                <span class="iconify" data-icon="mdi:paw" style="font-size: 36px; color: #FF8C42;"></span>
+                <span class="logo-text">萌宠星球<span class="logo-dot">.</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#">狗狗专区</a></li>
+                <li><a href="#">猫咪专区</a></li>
+                <li><a href="#">智能硬件</a></li>
+            </ul>
+        </div>
+        <div class="tools-wrapper">
+            <div class="search-bar rounded-pill">
+                <input class="search-input" id="searchInput" placeholder="搜索#智能喂食器" type="text"/>
+                <span class="iconify search-icon" data-icon="mdi:magnify"></span>
+            </div>
+            <a href="cart.html" class="user-avatar transition"><span class="iconify" data-icon="mdi:add-shopping-cart"></span></a>
+            <a href="login.html" class="user-avatar transition"><span class="iconify" data-icon="mdi:account-outline"></span></a>
+        </div>
+    </nav>
+</header>
+
+<section class="hero container">
+    <div class="hero-banner rounded-3xl">
+        <div class="hero-text">
+            <h1 class="hero-h1">懂它，更懂生活
+<!--                <br/>智能喂食器 Pro 2-->
+            </h1>
+            <p class="hero-desc">
+<!--                AI全天候动态监测，根据宠物指标精准配餐。-->
+            </p>
+<!--            <a href="detail.html" class="btn-orange rounded-pill transition">-->
+<!--&lt;!&ndash;                立即探索&ndash;&gt;-->
+<!--            </a>-->
+        </div>
+        <div class="hero-img-wrapper">
+            <img class="hero-img" src="../../static/pictures/client/index/banner.jpg" alt="Banner"/>
+        </div>
+    </div>
+</section>
+
+<section class="category-section container">
+    <div class="category-grid">
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:dog" style="font-size: 30px;"></span></div>
+            <span class="category-text">主粮专区</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:cookie" style="font-size: 30px;"></span></div>
+            <span class="category-text">零食罐头</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:bone" style="font-size: 30px;"></span></div>
+            <span class="category-text">生活用品</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:toys-outline" style="font-size: 30px;"></span></div>
+            <span class="category-text">玩具服饰</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:pets" style="font-size: 30px;"></span></div>
+            <span class="category-text">洗护美容</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:medication" style="font-size: 30px;"></span></div>
+            <span class="category-text">医疗保健</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:lightbulb-outline" style="font-size: 30px;"></span></div>
+            <span class="category-text">智能硬件</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon-wrapper"><span class="iconify" data-icon="mdi:gift-outline" style="font-size: 30px;"></span></div>
+            <span class="category-text">心宠礼盒</span>
+        </div>
+    </div>
+</section>
+
+<section class="product-section container">
+    <h2 class="section-title">为您优选</h2>
+    <div class="product-grid">
+        <article class="product-card rounded-3xl transition">
+            <div class="product-img-wrapper">
+                <a href="detail.html">
+                    <img class="product-img" src="../../static/pictures/client/index/product_1.png" alt="无线饮水机"/>                </a>
+                <img class="product-img" src="../../static/pictures/client/index/product_1.png" alt="无线饮水机"/>
+            </div>
+            <h3 class="product-title">自动饮水机 2026无线版</h3>
+            <div class="product-bottom">
+                <span class="product-price">¥199.00</span>
+                <button class="purchase-btn rounded-lg transition" onclick="simPurchase('饮水机')">购买</button>
+            </div>
+        </article>
+        <article class="product-card rounded-3xl transition">
+            <div class="product-img-wrapper">
+                <img class="product-img" src="../../static/pictures/client/index/product_2.png" alt="智能猫砂盆"/>
+            </div>
+            <h3 class="product-title">智能猫砂盆 Max</h3>
+            <div class="product-bottom">
+                <span class="product-price">¥899.00</span>
+                <button class="purchase-btn rounded-lg transition" onclick="simPurchase('猫砂盆')">购买</button>
+            </div>
+        </article>
+        <article class="product-card rounded-3xl transition">
+            <div class="product-img-wrapper">
+                <img class="product-img" src="../../static/pictures/client/index/product_3.png" alt="全自动烘干箱"/>
+            </div>
+            <h3 class="product-title">萌宠全自动烘干箱 2.0</h3>
+            <div class="product-bottom">
+                <span class="product-price">¥599.00</span>
+                <button class="purchase-btn rounded-lg transition" onclick="simPurchase('烘干箱')">购买</button>
+            </div>
+        </article>
+    </div>
+</section>
+
+<footer>
+    <div class="container footer-content">
+        <div class="footer-logo-desc">
+            <a href="index.html" class="footer-logo logo">
+                <span class="iconify" data-icon="mdi:paw" style="font-size: 36px; color: #FF8C42;"></span>
+                <span class="logo-text" style="color: #FFFFFF;">萌宠星球<span class="logo-dot">.</span></span>
+            </a>
+            <p style="color: #D1D5DB;">萌宠星球是2026年领先的宠物全生态电商平台，致力于通过智能硬件与优质商品，让每一只萌宠享受美好健康的生活。</p>
+        </div>
+        <div>
+            <h5 class="footer-links-title">购物指南</h5>
+            <ul class="footer-links">
+                <li><a href="#">配送服务</a></li>
+                <li><a href="#">支付方式</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container copyright" id="copyright">
+        © 2026 萌宠星球 Pet Planet. All rights reserved.
+    </div>
+</footer>
+
+<script>
+    // 原始原生交互：搜索框
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function(e) {
+        console.log("正在搜索: " + e.target.value);
+    });
+
+    // 原始原生交互：模拟购买
+    function simPurchase(productName) {
+        alert("已将【" + productName + "】加入购物车！");
+        // 如果你的 SSM 项目配置了购物车 Controller，可以在这里通过原始 Ajax (fetch/XMLHttpRequest) 发送数据。
+    }
+
+    // 原始原生交互：领取优惠券
+    function showCouponToast() {
+        alert("恭喜，您已领取心宠节无门槛优惠券！");
+    }
+
+    // 原始原生脚本：自动更新页脚年份
+    window.onload = function() {
+        const year = new Date().getFullYear();
+        document.getElementById('copyright').innerHTML = "© " + year + " 萌宠星球 Pet Planet. All rights reserved.";
+    };
+</script>
+
+</body>
+</html>

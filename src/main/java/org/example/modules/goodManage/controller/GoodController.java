@@ -71,7 +71,6 @@ public class GoodController {
 
     @GetMapping("/getById")
     public Good getById(@RequestParam Long id) {
-        // 直接返回对象，前端 jQuery 会自动解析
         return goodService.getById(id);
     }
 }
