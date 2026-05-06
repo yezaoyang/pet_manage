@@ -5,6 +5,7 @@ import org.example.modules.categoryManage.entity.Category;
 import java.util.List;
 
 public interface CategoryMapper {
+    List<Category> list();
     List<Category> findAllWithParent(
             @Param("offset") int offset,
             @Param("size") int size,
@@ -21,4 +22,7 @@ public interface CategoryMapper {
             @Param("id") Integer id,
             @Param("name") String name,
             @Param("level") String level
-    );}
+    );
+    void removeByIds(List<Integer> ids);
+
+}

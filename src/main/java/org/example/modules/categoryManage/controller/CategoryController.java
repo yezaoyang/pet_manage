@@ -5,7 +5,6 @@ import org.example.modules.categoryManage.service.CategoryService;
 import org.example.modules.userManage.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,12 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @GetMapping("/listAll")
+    public Result listAll() {
+        // 调用 service 层不带分页的方法，只查 id, name 字段即可
+        List<Category> allCategories = categoryService.list(); // 假设你的 service 有这个方法
+        return Result.success(allCategories);
+    }
 
     @GetMapping("/list")
     public Result list(
@@ -58,5 +63,17 @@ public class CategoryController {
         } else {
            return Result.error(result);
         }
+    }
+    @PostMapping("/batchDelete")
+    public Result batchDelete(@RequestBody List<Integer> ids) {
+        // 1. 基础校验：判空
+        if (ids == null || ids.isEmpty()) {
+            return Result.error("请选择要删除的数据");
+        }
+
+        // 4. 执行删除
+        categoryService.removeByIds(ids);
+
+        return Result.success();
     }
 }

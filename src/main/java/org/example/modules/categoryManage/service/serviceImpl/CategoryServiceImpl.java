@@ -16,6 +16,10 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
+    public List<Category> list(){
+        return categoryMapper.list();
+    }
+    @Override
     public List<Category> getAllWithParent(int offset, int size, Integer id, String name, String level) {
         return categoryMapper.findAllWithParent(offset, size, id, name, level);
     }
@@ -48,5 +52,10 @@ public class CategoryServiceImpl implements CategoryService {
         // 2. 执行删除
         int result = categoryMapper.delete(id);
         return result > 0 ? "success" : "删除失败，记录可能已被清除";
+    }
+
+    @Override
+    public void removeByIds(List<Integer> ids) {
+        categoryMapper.removeByIds(ids);
     }
 }

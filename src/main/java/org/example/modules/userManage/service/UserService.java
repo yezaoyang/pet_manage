@@ -11,5 +11,7 @@ public interface UserService {
     void delete(Integer id);
     void saveOrUpdate(User user);
     void deleteById(Integer id);
+//    批量删除
+    void removeByIds(List<Integer> ids);
     User findByUsername(String username);
 }

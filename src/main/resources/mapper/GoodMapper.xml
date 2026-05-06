@@ -1,50 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.modules.goodManage.dao.GoodMapper">
 
-    <sql id="Base_Column_List">
-        id, name, category_id, price, stock, image_url, description, status, create_time
-    </sql>
-
-    <select id="selectAllActive" resultType="org.example.modules.goodManage.entity.Good">
-        SELECT <include refid="Base_Column_List" />
-        FROM good
-        WHERE status = 1
-        ORDER BY create_time DESC
+    <select id="selectGoodList" resultType="org.example.modules.goodManage.entity.Good">
+        SELECT g.*, c.name as categoryName
+        FROM `good` g
+        LEFT JOIN category c ON g.category_id = c.id
+        <where>
+            <if test="name != null and name != ''">
+                AND g.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+        ORDER BY g.id DESC
+        LIMIT #{offset}, #{size}
     </select>
 
-    <select id="selectById" parameterType="java.lang.Integer" resultType="org.example.modules.goodManage.entity.Good">
-        SELECT <include refid="Base_Column_List" />
-        FROM good
-        WHERE id = #{id}
+    <select id="selectGoodCount" resultType="int">
+        SELECT COUNT(*) FROM `good`
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
     </select>
-
-    <insert id="insert" parameterType="org.example.modules.goodManage.entity.Good" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO good (name, category_id, price, stock, image_url, description)
-        VALUES (#{name}, #{categoryId}, #{price}, #{stock}, #{imageUrl}, #{description})
-    </insert>
 
     <update id="update" parameterType="org.example.modules.goodManage.entity.Good">
         UPDATE `good`
         <set>
-            <if test="name != null and name != ''">`name` = #{name},</if>
-            <if test="breed != null">`breed` = #{breed},</if>
-            <if test="age != null">`age` = #{age},</if>
-            <if test="gender != null">`gender` = #{gender},</if>
-            <if test="description != null">`description` = #{description},</if>
-            <if test="avatar != null">`avatar` = #{avatar},</if>
-
-            <if test="price != null">`price` = #{price},</if>
-
-            <if test="isOnSale != null">`is_on_sale` = #{isOnSale},</if>
-            <if test="stock != null">`stock` = #{stock},</if>
-            <if test="adoptStatus != null">`adopt_status` = #{adoptStatus},</if>
-            <if test="healthStatus != null">`health_status` = #{healthStatus},</if>
-
-            `update_time` = NOW()
+            <if test="name != null">name = #{name},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="stock != null">stock = #{stock},</if>
+            <if test="isOnSale != null">is_on_sale = #{isOnSale},</if>
         </set>
-        WHERE `id` = #{id}
+        WHERE id = #{id}
     </update>
 
+    <delete id="deleteById">
+        DELETE FROM `good` WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `good` (name, category_id, description, image_url, price, stock, is_on_sale)
+        VALUES (#{name}, #{categoryId}, #{description}, #{imageUrl}, #{price}, #{stock}, #{isOnSale})
+    </insert>
+
+    <select id="selectById" resultType="org.example.modules.goodManage.entity.Good">
+        SELECT * FROM `good` g
+            LEFT JOIN category c ON g.category_id = c.id
+            <where>
+                <if test="id != null and id != ''">
+                   And g.id = #{id}
+                </if>
+            </where>
+    </select>
 </mapper>

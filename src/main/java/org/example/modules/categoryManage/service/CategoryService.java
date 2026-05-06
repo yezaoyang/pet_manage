@@ -6,7 +6,11 @@ import java.util.List;
 public interface CategoryService {
 
     /**
-     * 获取所有分类（包含父类名称信息）
+     * 获取所有分类
+     */
+    List<Category> list();
+    /**
+     * 按分页获取所有分类（包含父类名称信息）
      */
     List<Category> getAllWithParent(int offset, int size, Integer id, String name, String level);
 
@@ -25,4 +29,7 @@ public interface CategoryService {
     String deleteCategory(Integer id);
 
     int count(Integer id, String name, String level);
+
+    void removeByIds(List<Integer> ids);
+
 }

@@ -1,10 +1,10 @@
 function initCategoryModule() {
+    initCategoryTree();
     loadCategoryList();
 }
 
-let currentPage = 1;
-const pageSize = 5; // 每页显示8条记录
-
+var currentPage = 1;
+var pageSize = 5; // 每页显示8条记录
 function loadCategoryList(page = 1) {
     currentPage = page;
     const params = {
@@ -19,7 +19,7 @@ function loadCategoryList(page = 1) {
         if (res.code === 200) {
             renderTable(res.data.list);    // 渲染表格
             renderPagination(res.data.total); // 渲染分页条
-            $("#pageInfo").text(`第 ${currentPage} 页，共 ${res.data.total} 条`);
+            $("#pageInfo").text(`第 ${currentPage} 页，共 ${res.data.total} 条记录`);
         }
     });
 }
@@ -27,17 +27,22 @@ function loadCategoryList(page = 1) {
 function renderTable(categories) {
     let html = '';
     // 渲染表格
-    categories.forEach(item => {
-        let levelName="";
-        switch (item.level) {
-            case "1": levelName="一级大类";break;
-            case "2": levelName="二级子类";break;
-        }
+    categories.forEach((item,index) => {
+        // let levelName="";
+        // switch (item.level) {
+        //     case "1": levelName="一级大类";break;
+        //     case "2": levelName="二级子类";break;
+        //     case "3": levelName="三级子类";break;
+        // }
         html += `<tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input user-check" value="${item.id}" onclick="updateBatchBtnStatus()">
+                    </td>
+                    <td>${index+1}</td>
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>${item.description || ''}</td>
-                    <td><span class="${item.level==="1" ? 'label label-success' : 'label label-info'}">${levelName}</span></td>
+                    <td><span class="${item.level==="1" ? 'label label-success' : 'label label-info'}">${item.level}级分类</span></td>
                     <td>${item.parentName || ''}</td>
                     <td>
                         <button class="btn btn-info btn-xs" onclick="editCategory(${JSON.stringify(item).replace(/"/g, '&quot;')})">编辑</button>
@@ -85,6 +90,7 @@ function saveCategory() {
         id: $("#cat_id").val(),
         name: $("#cat_name").val(),
         cateId: $("#cat_parent").val(),
+        level: $("#cat_level").val(),
         description: $("#cat_description").val()
     };
 
@@ -103,4 +109,182 @@ function saveCategory() {
         }
     });
 }
+// 下拉框树展示
+var setting = {
+    view: { dblClickExpand: false, selectedMulti: false },
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "cateId",
+            rootPId: 0
+        },
+        key: { name: "name" }
+    },
+    callback: { onClick: onTreeClick }
+};
 
+// 点击树节点的逻辑
+function onTreeClick(e, treeId, treeNode) {
+    // 1. 获取选中节点的名称和ID
+    $("#parent_name").val(treeNode.name);
+    $("#cat_parent").val(treeNode.id);
+console.log(treeNode)
+    // 2. 核心逻辑：计算当前“新增分类”的级别
+    // 如果选中的是父类，那么当前新增的子类级别 = 父类级别 + 1
+    let parentLevel = treeNode.level; // 这里的 level 是数据库带出来的字段
+
+    // 注意：如果数据库存的是 1, 2... 而不是从0开始，请根据你的业务逻辑加减
+    // 由于数据库的level被tree自带的level覆盖，所以用tree的默认父级为0来计算
+    let currentLevel = parseInt(parentLevel) + 2;
+
+    $("#cat_level").val(currentLevel); // 存入隐藏域
+
+
+    hideMenu();
+}
+
+// 展现/隐藏菜单
+function showMenu() {
+    $("#menuContent").slideDown("fast");
+    $("body").bind("mousedown", onBodyDown);
+}
+function hideMenu() {
+    $("#menuContent").fadeOut("fast");
+    $("body").unbind("mousedown", onBodyDown);
+}
+function onBodyDown(event) {
+    if (!(event.target.id == "parent_name" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+        hideMenu();
+    }
+}
+function clearParent() {
+    $("#parent_name").val("");
+    $("#cat_parent").val(0);
+}
+// 分类下拉框初始化和新增框中树初始化
+ function initCategoryTree() {
+    $.get("/api/category/listAll", function(res) {
+        if (res.code === 200) {
+            var $select = $("#search_level");
+            // 先清空除了第一个默认项以外的所有选项
+            $select.find("option:not(:first)").remove();
+            // 清洗数据表的类别信息
+            const uniqueLevels = [...new Set(res.data.map(item => item.level))]
+                .filter(lv => lv !== null && lv !== undefined && lv !== "")
+                .sort((a, b) => parseInt(a) - parseInt(b)); // 升序排序
+            uniqueLevels.forEach(lv=>{
+                if (lv) {
+                    // 动态拼接展示文本：数字 + "级"
+                    var text = lv + " 级分类";
+                    $select.append(`<option value="${lv}">${text}</option>`);
+                }
+            })
+            const processedData = res.data.map(item => ({
+                ...item,
+                id: Number(item.id),
+                cateId: Number(item.cateId)
+            }));
+            // zTree 支持简单数组格式，只要有 id 和 parentId 就能自动成树
+            $.fn.zTree.init($("#treeDemo"), setting, processedData);
+            // 自动展开所有节点（方便调试看子类出没出来）
+            const treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            treeObj.expandAll(true);
+        }
+    });
+}
+// 在打开新增弹窗时调用
+ function showAddCategoryModal() {
+    $("#modalTitle").text("新增分类");
+    $("#categoryForm")[0].reset();
+    $("#cat_id").val("");
+
+    // 清除 Select2 的选中状态
+    $("#cat_parent").val(null).trigger('change');
+
+    // 初始化/刷新下拉列表
+     initCategoryTree();
+
+    $("#categoryModal").modal("show");
+}
+ function editCategory(item) {
+    $("#modalTitle").text("编辑分类");
+    $("#categoryForm")[0].reset(); // 先重置表单
+
+    // 1. 基本字段回显
+    $("#cat_id").val(item.id);
+    $("#cat_name").val(item.name);
+    $("#cat_description").val(item.description);
+
+    // 2. 层级和父级回显
+    // 注意：编辑时，level 通常保持不变，不需要像新增那样 +2
+    $("#cat_level").val(item.level);
+    $("#cat_parent").val(item.cateId || 0);
+    $("#parent_name").val(item.parentName || (item.cateId == 0 ? "顶级分类" : "无"));
+
+    // 3. 初始化树（确保下拉树可用）
+    initCategoryTree();
+
+    // 4. 显示弹窗
+    $("#categoryModal").modal("show");
+}
+/**
+ * 全选/反选
+ */
+function toggleAll(obj) {
+    const isChecked = $(obj).prop("checked");
+    $(".user-check").prop("checked", isChecked);
+    updateBatchBtnStatus();
+}
+
+/**
+ * 更新批量删除按钮的可操作状态
+ */
+function updateBatchBtnStatus() {
+    // 获取选中的复选框数量
+    const checkedCount = $(".user-check:checked").length;
+
+    // 如果选中数量 > 0，且当前用户有权限（role === 1），则解除禁用
+    if (checkedCount > 0) {
+        $("#btnBatchDelete").prop("disabled", false);
+    } else {
+        $("#btnBatchDelete").prop("disabled", true);
+    }
+}
+
+/**
+ * 批量删除执行逻辑
+ */
+function batchDeleteUsers() {
+    let ids = [];
+    $(".user-check:checked").each(function() {
+        ids.push(parseInt($(this).val()));
+    });
+
+    if (ids.length === 0) return;
+
+    if (!confirm(`确定要删除选中的 ${ids.length} 个分类吗？`)) {
+        return;
+    }
+    if (!confirm(`是否确认删除这 ${ids.length} 个分类,即便其中可能包含高级类别？`)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/api/category/batchDelete",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(ids),
+        success: function(res) {
+            if (res.code === 200) {
+                alert("批量删除成功");
+                initCategoryModule(); // 重新加载数据
+                // 关键：重置全选框和按钮状态
+                $("#checkAll").prop("checked", false);
+                $("#btnBatchDelete").prop("disabled", true);
+            } else {
+                alert("操作失败：" + res.msg);
+            }
+        }
+    });
+}
