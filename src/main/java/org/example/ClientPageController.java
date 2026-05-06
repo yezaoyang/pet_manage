@@ -1,20 +1,23 @@
 package org.example;
 
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @RestController // 注意这里改为 RestController，或者方法加 @ResponseBody
-@RequestMapping("/admin")
-public class PageController {
+@RequestMapping("/client")
+public class ClientPageController {
 
     @GetMapping(value = "/loadPage/{pageName}", produces = "text/html;charset=UTF-8")
     public String loadPage(@PathVariable String pageName, HttpServletRequest request) throws Exception {
         // 1. 获取 WEB-INF 下文件的真实流路径
-        String path = "/WEB-INF/pages/admin/" + pageName + ".html";
+        String path = "/WEB-INF/pages/client/" + pageName + ".html";
         InputStream is = request.getServletContext().getResourceAsStream(path);
 
         if (is == null) {

@@ -18,6 +18,7 @@ $(document).ready(function() {
  */
 function loadOrderData(page = 1) {
     currentPage = page;
+    console.log(1)
 
     // 获取搜索框的值
     const params = {

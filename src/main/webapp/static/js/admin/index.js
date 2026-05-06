@@ -1,6 +1,6 @@
 function switchPage(pageName, menuTitle) {
     const pureName = pageName.replace(".html", "");
-    const apiUrl = "admin/loadPage/" + pureName;
+    const apiUrl = "/admin/loadPage/" + pureName;
 
     // --- 1. 处理侧边栏高亮 ---
     const $targetMenu = $(`.menu-item[data-page*="${pureName}"]`);
@@ -27,10 +27,10 @@ function switchPage(pageName, menuTitle) {
 
         // --- 4. 动态加载 JS 并初始化 ---
         // 我们约定：JS 文件名必须和页面名一致，例如 user_list.html 对应 user_list.js
-        const scriptPath = "../js/" + pureName + ".js";
+        const scriptPath = "../js/admin/" + pureName + ".js";
 
         // 检查该模块是否需要专门的 JS 初始化
-        const modulesNeedingJs = ["user_list", "category_list", "good_list"];
+        const modulesNeedingJs = ["user_list", "category_list", "good_list","order"];
 
         if (modulesNeedingJs.includes(pureName)) {
             $.getScript(scriptPath)
