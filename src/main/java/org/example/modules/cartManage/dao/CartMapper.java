@@ -17,11 +17,11 @@ public interface CartMapper {
 
     /**
      * 根据用户ID和商品ID查询购物车项
-     * @param userId 用户ID
-     * @param goodsId 商品ID
+     * @param customerId 用户ID
+     * @param goodId 商品ID
      * @return 购物车项
      */
-    Cart selectCartByUserIdAndGoodsId(@Param("userId") Integer userId, @Param("goodsId") Integer goodsId);
+    Cart selectCartByCustomerIdAndGoodsId(@Param("customerId") Integer customerId, @Param("goodId") Integer goodId);
 
     /**
      * 根据ID更新购物车商品数量

@@ -23,7 +23,7 @@ public  class CartServiceImpl implements CartService {
     @Override
     public boolean addCart(Integer customerId, Integer goodId, Integer quantity) {
         // 1. 查询该用户是否已添加该商品到购物车
-        Cart existCart = cartMapper.selectCartByUserIdAndGoodsId(customerId, goodId);
+        Cart existCart = cartMapper.selectCartByCustomerIdAndGoodsId(customerId, goodId);
         if (existCart != null) {
             // 2. 已存在则更新数量（原数量+新数量）
             int newQuantity = existCart.getQuantity() + quantity;

@@ -87,7 +87,7 @@ function login() {
                 showToast("登录成功，正在跳转...", "success");
                 // 关键：存入 customerInfo 供首页使用
                 localStorage.setItem("customerInfo", JSON.stringify(res.data));
-                setTimeout(() => { window.location.href = "/index.html"; }, 1000);
+                setTimeout(() => { window.location.href = "/html/client/index.html"; }, 1000);
             } else {
                 showToast(res.msg || "登录失败");
             }
@@ -98,11 +98,11 @@ function login() {
 
 // 注册 Ajax
 function register() {
-    const username = $('#reg-username').val();
+    const name = $('#reg-username').val();
     const password = $('#reg-password').val();
     const confirmPassword = $('#reg-confirm-password').val();
 
-    if (!username || !password || !confirmPassword) {
+    if (!name || !password || !confirmPassword) {
         showToast('请填写完整信息');
         return;
     }
@@ -114,7 +114,7 @@ function register() {
     $.ajax({
         url: '/api/customer/register',
         type: 'POST',
-        data: { username, password },
+        data: { name, password },
         success: function(res) {
             if (res.code === 200) {
                 showToast('注册成功！请登录', "success");

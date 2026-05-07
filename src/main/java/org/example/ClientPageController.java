@@ -10,25 +10,29 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-@RestController // 注意这里改为 RestController，或者方法加 @ResponseBody
+@RestController
 @RequestMapping("/client")
 public class ClientPageController {
 
     @GetMapping(value = "/loadPage/{pageName}", produces = "text/html;charset=UTF-8")
-    public String loadPage(@PathVariable String pageName, HttpServletRequest request) throws Exception {
-        // 1. 获取 WEB-INF 下文件的真实流路径
-        String path = "/WEB-INF/pages/client/" + pageName + ".html";
-        InputStream is = request.getServletContext().getResourceAsStream(path);
-
-        if (is == null) {
-            return "页面不存在：" + path;
+    public String loadPage(@PathVariable String pageName, HttpServletRequest request) {
+        // 1. 防御性检查：防止 pageName 包含 .. 等攻击字符
+        if (pageName == null || pageName.contains("..") || pageName.contains("/")) {
+            return "非法请求";
         }
 
-        // 2. 核心：使用 UTF-8 编码将输入流直接转为字符串返回
-        // 这样就彻底绕过了 Tomcat 对静态文件的错误编码读取
-        String content = StreamUtils.copyToString(is, StandardCharsets.UTF_8);
+        String path = "/WEB-INF/pages/client/" + pageName + ".html";
 
-        is.close();
-        return content;
+        // 2. 使用 try-with-resources 自动关闭流
+        try (InputStream is = request.getServletContext().getResourceAsStream(path)) {
+            if (is == null) {
+                return "页面【" + pageName + "】在后厨迷路了（404）";
+            }
+
+            // 直接读取并返回
+            return StreamUtils.copyToString(is, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "加载页面异常：" + e.getMessage();
+        }
     }
 }
