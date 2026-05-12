@@ -2,6 +2,7 @@ package org.example.modules.goodManage.controller;
 
 import org.example.modules.goodManage.entity.Good;
 import org.example.modules.goodManage.service.GoodService;
+import org.example.modules.userManage.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,7 +71,7 @@ public class GoodController {
     }
 
     @GetMapping("/getById")
-    public Good getById(@RequestParam Long id) {
-        return goodService.getById(id);
+    public Result<Good> getById(@RequestParam Long id) {
+        return Result.success(goodService.getById(id));
     }
 }

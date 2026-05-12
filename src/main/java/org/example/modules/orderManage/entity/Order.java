@@ -11,6 +11,8 @@ public class Order {
     private String receiverAddress;
     private BigDecimal totalPrice;
     private Date createTime;
+    private Integer status;
+
     // 常用关联：订单明细
     private List<OrderItem> orderItemList;
 
@@ -70,4 +72,12 @@ public class Order {
         this.orderItemList = orderItemList;
     }
     // getter setter
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer stauts) {
+        this.status = stauts;
+    }
 }

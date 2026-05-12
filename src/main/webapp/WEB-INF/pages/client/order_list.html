@@ -1,0 +1,96 @@
+<style>
+    .order-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid #f5f5f5; }
+    .order-header { display: flex; justify-content: space-between; padding-bottom: 15px; border-bottom: 1px solid #fafafa; margin-bottom: 15px; font-size: 13px; color: #999; }
+    .order-item-detail { display: flex; gap: 15px; margin-bottom: 15px; }
+    .order-item-img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; }
+    .order-item-info { flex: 1; }
+    .order-item-name { font-weight: bold; font-size: 15px; margin-bottom: 5px; }
+    .order-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #fafafa; }
+    .status-tag { padding: 4px 10px; border-radius: 8px; font-size: 12px; }
+    .status-0 { background: #FFF3E0; color: #FF9800; } /* 待支付 */
+    .status-2 { background: #E8F5E9; color: #4CAF50; } /* 已完成 */
+    .btn-pay { background: #FF8C42; color: white; border: none; padding: 6px 15px; border-radius: 8px; cursor: pointer; }
+</style>
+
+<div class="content-card">
+    <div class="card-header">
+        <span class="card-title">我的订单</span>
+    </div>
+
+    <div id="orderListData">
+        <div style="text-align: center; padding: 50px; color: #ccc;">正在加载订单记录...</div>
+    </div>
+</div>
+
+<script>
+    /**
+     * 初始化订单列表数据
+     */
+    function initOrderList() {
+        const userInfo = JSON.parse(localStorage.getItem("customerInfo"));
+
+        $.ajax({
+            url: '/api/order/list', // 调用你之前的订单列表接口
+            type: 'GET',
+            data: { customerId: userInfo.id, page: 1, size: 20 },
+            success: function(res) {
+                if (res.code === 200) {
+                    renderOrders(res.data.list);
+                }
+            }
+        });
+    }
+
+    function renderOrders(list) {
+        const container = $('#orderListData');
+        container.empty();
+
+        if (!list || list.length === 0) {
+            container.html('<div style="text-align: center; padding: 50px; color: #999;">暂无订单记录记录</div>');
+            return;
+        }
+
+        list.forEach(order => {
+            let statusText = order.status === 2 ? '已完成' : '待支付';
+            let statusClass = 'status-' + order.status;
+            let payBtn = order.status === 0 ? `<button class="btn-pay" onclick="goPay('${order.orderNo}', ${order.totalPrice})">去支付</button>` : '';
+
+            // 注意：这里需要后端在查询列表时把关联的商品名称和图片查出来，或者展示订单概要
+            let html = `
+            <div class="order-card">
+                <div class="order-header">
+                    <span>订单号：${order.orderNo}</span>
+                    <span>下单时间：${new Date(order.createTime).toLocaleString()}</span>
+                </div>
+                <div class="order-item-detail">
+                    <div class="order-item-info">
+                        <div class="order-item-name">萌宠星球订单 - 共${order.totalPrice.toFixed(2)}元</div>
+                        <div style="color: #999; font-size: 13px;">收货地址：${order.receiverAddress}</div>
+                    </div>
+                    <div style="text-align: right">
+                        <span class="status-tag ${statusClass}">${statusText}</span>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div>实付款：<span style="color: #FF8C42; font-weight: bold; font-size: 18px;">¥${order.totalPrice.toFixed(2)}</span></div>
+                    <div>${payBtn}</div>
+                </div>
+            </div>`;
+            container.append(html);
+        });
+    }
+
+    /**
+     * 二次支付逻辑
+     */
+    function goPay(orderNo, price) {
+        if(confirm(`确认支付订单 ${orderNo} 吗？金额: ¥${price}`)) {
+            $.post('/api/order/updateStatus', { orderNo: orderNo, status: 2 }, function(res) {
+                if(res.code === 200) {
+                    alert("支付成功！");
+                    initOrderList(); // 刷新列表
+                }
+            });
+        }
+    }
+</script>

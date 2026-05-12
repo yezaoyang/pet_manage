@@ -3,7 +3,7 @@
 <mapper namespace="org.example.modules.customerManage.dao.CustomerMapper">
 
     <select id="selectByUsername" resultType="org.example.modules.customerManage.entity.Customer">
-        SELECT id, name, password FROM customer WHERE name = #{name}
+        SELECT * FROM customer WHERE name = #{name}
     </select>
 
     <insert id="insert" parameterType="org.example.modules.customerManage.entity.Customer" useGeneratedKeys="true" keyProperty="id">

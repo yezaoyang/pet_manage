@@ -82,5 +82,9 @@
             #{id}
         </foreach>
     </delete>
-
+    <select id="findCategoriesByLevel" resultType="org.example.modules.categoryManage.entity.Category">
+        SELECT * FROM category
+        WHERE level = #{level}
+        ORDER BY id ASC
+    </select>
 </mapper>

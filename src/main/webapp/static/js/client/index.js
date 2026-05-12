@@ -18,8 +18,9 @@ $(document).ready(function() {
     function loadIndexData() {
         // 分类请求
         $.ajax({
-            url: '/api/category/listAll',
+            url: '/api/category/list1',
             type: 'GET',
+            data: { level: "2" },
             success: function(res) {
                 if (res && res.code === 200 && Array.isArray(res.data)) {
                     renderCategories(res.data);
@@ -29,7 +30,16 @@ $(document).ready(function() {
                 console.error("分类加载失败:", xhr.status);
             }
         });
-
+        $.ajax({
+            url: '/api/category/list1',
+            type: 'GET',
+            data: { level: "1" },
+            success: function(res) {
+                if (res.code === 200) {
+                    renderNav(res.data);
+                }
+            }
+        });
         // 商品请求
         $.ajax({
             url: '/api/good/list',
@@ -97,7 +107,22 @@ $(document).ready(function() {
             if(keyword) window.location.href = '/html/client/search.html?keyword=' + encodeURIComponent(keyword);
         }
     });
+    // 渲染顶部大类
+    function renderNav(categories) {
+        const $navLinks = $('.nav-links');
+        $navLinks.empty(); // 清空写死的静态内容
 
+        categories.forEach(item => {
+            // 动态构建 li 标签
+            const html = `
+            <li>
+                <a href="javascript:void(0);" onclick="filterByCategory(${item.id})">
+                    ${item.name}
+                </a>
+            </li>`;
+            $navLinks.append(html);
+        });
+    }
     // --- 3. 购物车逻辑 (Customer 权限专用) ---
     $(document).on('click', '.js-add-cart', function() {
         const gid = $(this).data('id');
@@ -165,4 +190,23 @@ $(document).ready(function() {
     if ($copyright.length) {
         $copyright.html(`&copy; ${new Date().getFullYear()} 萌宠星球 Pet Planet. All rights reserved.`);
     }
+
 });
+/**
+ * 处理用户头像点击跳转
+ */
+function handleUserClick(target) {
+    // 1. 从本地存储获取用户信息
+    const userInfo = localStorage.getItem("customerInfo");
+
+    if (!userInfo) {
+        // 2. 如果已登录（存在数据），跳转到个人中心
+        // 注意：这里使用的是你 ClientPageController 定义的路由
+        window.location.href = "/client/login.html";
+    }
+    if (target === 'cart') {
+        window.location.href = "/client/loadPage/cart";
+    } else if (target === 'profile') {
+        window.location.href = "/client/loadPage/profile";
+    }
+}

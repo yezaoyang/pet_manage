@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.modules.boardManage.dao.AdminMapper">
+
+    <select id="getDashboardStats" resultType="org.example.modules.boardManage.entity.AdminStatisticsVO">
+        SELECT
+            /* 1. 未完成订单：统计状态为待支付(0)或待发货(1)的订单 */
+                (SELECT COUNT(*) FROM `order` WHERE status = 0 OR status = 1) as pendingOrders,
+
+            /* 2. 本月销售额：统计本月已完成(2)订单的总金额 */
+                (SELECT COALESCE(SUM(total_price), 0) FROM `order`
+                 WHERE status = 2
+                   AND DATE_FORMAT(create_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')) as monthlyRevenue,
+
+            /* 3. 会员总数：统计用户表总行数 */
+                (SELECT COUNT(*) FROM customer) as totalCustomers,
+
+            /* 4. 库存告急：统计库存数量低于 10 的商品 */
+                (SELECT COUNT(*) FROM good WHERE stock &lt; 10) as stockWarningCount
+    </select>
+
+</mapper>

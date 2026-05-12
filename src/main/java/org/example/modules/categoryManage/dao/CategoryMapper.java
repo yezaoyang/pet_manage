@@ -24,5 +24,5 @@ public interface CategoryMapper {
             @Param("level") String level
     );
     void removeByIds(List<Integer> ids);
-
+    List<Category> findCategoriesByLevel(String level);
 }

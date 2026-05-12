@@ -1,108 +1,152 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../css/admin/admin-layout.css">
-</head>
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3">
-            <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
-                    <i class="fas fa-shopping-bag text-primary fa-lg"></i>
+<div class="container-fluid animate__animated animate__fadeIn">
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-shopping-bag text-primary fa-lg"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">未完成订单</h6>
+                        <h4 class="mb-0" id="today-orders">0</h4>
+                    </div>
                 </div>
-                <div>
-                    <h6 class="text-muted mb-1">今日订单</h6>
-                    <h4 class="mb-0" id="today-orders">0</h4>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-yen-sign text-success fa-lg"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">本月销售额</h6>
+                        <h4 class="mb-0">¥<span id="today-revenue">0.00</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-user-plus text-info fa-lg"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">会员总数</h6>
+                        <h4 class="mb-0" id="new-users">0</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm p-3 h-100">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-1">库存告急</h6>
+                        <h4 class="mb-0" id="stock-warning">0</h4>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3">
-            <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
-                    <i class="fas fa-yen-sign text-success fa-lg"></i>
+
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0 fw-bold">最新上架商品</h5>
+                    <button class="btn btn-sm btn-outline-primary" onclick="switchPage('good_list.html', '商品管理')">
+                        查看全部
+                    </button>
                 </div>
-                <div>
-                    <h6 class="text-muted mb-1">今日销售额</h6>
-                    <h4 class="mb-0">¥<span id="today-revenue">0.00</span></h4>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="recent-goods-table">
+                            <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">图片</th>
+                                <th>商品名称</th>
+                                <th>价格</th>
+                                <th>当前库存</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="4" class="text-center py-5">
+                                    <div class="spinner-border text-primary spinner-border-sm me-2"></div>
+                                    正在同步实时数据...
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3">
-            <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
-                    <i class="fas fa-user-plus text-info fa-lg"></i>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class="card-title mb-0 fw-bold">快捷入口</h5>
                 </div>
-                <div>
-                    <h6 class="text-muted mb-1">新增会员</h6>
-                    <h4 class="mb-0" id="new-users">0</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3">
-            <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
-                    <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
-                </div>
-                <div>
-                    <h6 class="text-muted mb-1">库存告急</h6>
-                    <h4 class="mb-0 text-danger" id="stock-warning">0</h4>
+                <div class="card-body d-grid gap-3">
+                    <button class="btn btn-light text-start p-3 border-0 shadow-xs hover-shadow"
+                            onclick="switchPage('good_list.html', '发布商品')">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-plus-circle text-primary fs-4 me-3"></i>
+                            <div>
+                                <div class="fw-bold">发布新商品</div>
+                                <small class="text-muted">快速添加商品到商城</small>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="btn btn-light text-start p-3 border-0 shadow-xs hover-shadow"
+                            onclick="switchPage('category_list.html', '分类管理')">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-tags text-success fs-4 me-3"></i>
+                            <div>
+                                <div class="fw-bold">管理商品分类</div>
+                                <small class="text-muted">维护层级分类结构</small>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="btn btn-light text-start p-3 border-0 shadow-xs hover-shadow"
+                            onclick="switchPage('order.html', '订单中心')">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clipboard-list text-info fs-4 me-3"></i>
+                            <div>
+                                <div class="fw-bold">查看订单详情</div>
+                                <small class="text-muted">处理未完成的业务订单</small>
+                            </div>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row g-4">
-    <div class="col-md-8">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-transparent border-0 py-3">
-                <h5 class="card-title mb-0 fw-bold">最新上架商品</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-hover align-middle" id="recent-goods-table">
-                    <thead class="table-light">
-                    <tr>
-                        <th>图片</th>
-                        <th>名称</th>
-                        <th>价格</th>
-                        <th>库存</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-transparent border-0 py-3">
-                <h5 class="card-title mb-0 fw-bold">快捷入口</h5>
-            </div>
-            <div class="card-body d-grid gap-2">
-                <button class="btn btn-outline-primary text-start py-3"
-                        onclick="switchPage('product_add.html', '发布商品')">
-                    <i class="fas fa-plus-circle me-2"></i> 发布新商品
-                </button>
-
-                <button class="btn btn-outline-secondary text-start py-3"
-                        onclick="switchPage('category_list.html', '分类管理')">
-                    <i class="fas fa-tags me-2"></i> 管理分类
-                </button>
-
-                <button class="btn btn-outline-success text-start py-3"
-                        onclick="switchPage('report_list.html', '财务报表')">
-                    <i class="fas fa-file-invoice-dollar me-2"></i> 导出财务报表
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="/pet_manage/static/js/admin/index.js"></script>
+<style>
+    /* 局部样式：鼠标悬停快捷按钮效果 */
+    .hover-shadow:hover {
+        background-color: #f0f7ff !important;
+        transform: translateY(-2px);
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+    }
+    .table thead th {
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+</style>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>个人中心 - 萌宠星球</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/css/client/index.css">
+
+  <style>
+    body { background-color: #FFFAF0; color: #404040; font-family: 'Noto Sans SC', sans-serif; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* --- 头部导航复用 --- */
+    header { background: white; height: 70px; display: flex; align-items: center; border-bottom: 1px solid #eee; margin-bottom: 30px; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: bold; color: #6D5A72; font-size: 20px; text-decoration: none; }
+
+    /* --- 布局结构 --- */
+    .profile-wrapper { display: flex; gap: 30px; margin-top: 20px; }
+
+    /* 左侧菜单 */
+    .profile-sidebar { flex: 1; background: white; border-radius: 20px; padding: 20px; height: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+    .menu-item {
+      display: flex; align-items: center; gap: 12px; padding: 15px; border-radius: 12px;
+      color: #666; text-decoration: none; transition: 0.3s; margin-bottom: 5px;
+    }
+    .menu-item:hover, .menu-item.active { background: #FFF9F5; color: #FF8C42; font-weight: bold; }
+    .menu-item .iconify { font-size: 20px; }
+
+    /* 右侧内容 */
+    .profile-content { flex: 3.5; }
+
+    /* 用户信息卡片 */
+    .user-info-card {
+      background: white; border-radius: 25px; padding: 30px; display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .user-main { display: flex; align-items: center; gap: 20px; }
+    .user-avatar-big { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #FFF9F5; object-fit: cover; }
+    .user-name { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 5px; }
+    .user-tag { background: #6D5A72; color: white; font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+
+    /* 资产统计 */
+    .asset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+    .asset-card { background: white; padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #f5f5f5; }
+    .asset-value { font-size: 22px; font-weight: bold; color: #FF8C42; display: block; margin-bottom: 5px; }
+    .asset-label { font-size: 13px; color: #999; }
+
+    /* 常用功能区 */
+    .content-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: bold; }
+    .more-link { font-size: 13px; color: #999; text-decoration: none; }
+
+    /* 订单状态快捷入口 */
+    .order-status-grid { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; }
+    .status-item { color: #666; text-decoration: none; font-size: 13px; }
+    .status-item .iconify { font-size: 28px; display: block; margin: 0 auto 10px; color: #6D5A72; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container nav-inner">
+    <a href="/client/index.html" class="logo">
+      <span class="iconify" data-icon="mdi:paw"></span>萌宠星球
+    </a>
+  </div>
+</header>
+
+<main class="container">
+  <div class="profile-wrapper">
+    <aside class="profile-sidebar">
+      <a href="javascript:void(0);" data-page="index" class="menu-item active"><span class="iconify" data-icon="mdi:account-circle-outline"></span> 个人首页</a>
+      <a href="javascript:void(0);" data-page="order_list" class="menu-item"><span class="iconify" data-icon="mdi:clipboard-text-outline"></span> 我的订单</a>
+      <a href="#" class="menu-item"><span class="iconify" data-icon="mdi:heart-outline"></span> 我的收藏</a>
+      <a href="#" class="menu-item"><span class="iconify" data-icon="mdi:map-marker-outline"></span> 地址管理</a>
+      <a href="#" class="menu-item"><span class="iconify" data-icon="mdi:dog"></span> 宠物档案</a>
+      <a href="#" class="menu-item"><span class="iconify" data-icon="mdi:shield-check-outline"></span> 账号安全</a>
+      <hr style="border: none; border-top: 1px solid #f5f5f5; margin: 15px 0;">
+      <a href="javascript:void(0);" onclick="logout()" class="menu-item" style="color: #FF5252;"><span class="iconify" data-icon="mdi:logout"></span> 退出登录</a>
+    </aside>
+
+    <section class="profile-content">
+      <div class="user-info-card">
+        <div class="user-main">
+          <img src="/static/pictures/default-avatar.png" class="user-avatar-big" id="displayAvatar">
+          <div>
+            <div class="user-name" id="displayName">加载中...</div>
+            <span class="user-tag">黄金会员</span>
+          </div>
+        </div>
+        <button style="border: 1px solid #6D5A72; background: none; color: #6D5A72; padding: 8px 15px; border-radius: 10px; cursor: pointer;">编辑资料</button>
+      </div>
+
+      <div class="asset-grid">
+        <div class="asset-card">
+          <span class="asset-value" id="displayBalance">¥0.00</span>
+          <span class="asset-label">钱包余额</span>
+        </div>
+        <div class="asset-card">
+          <span class="asset-value">1,250</span>
+          <span class="asset-label">星球积分</span>
+        </div>
+        <div class="asset-card">
+          <span class="asset-value">3</span>
+          <span class="asset-label">优惠券</span>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="card-header">
+          <span class="card-title">我的订单</span>
+          <a href="#" class="more-link">查看全部订单 ></a>
+        </div>
+        <div class="order-status-grid">
+          <a href="#" class="status-item">
+            <span class="iconify" data-icon="mdi:wallet-outline"></span>待付款
+          </a>
+          <a href="#" class="status-item">
+            <span class="iconify" data-icon="mdi:package-variant-closed"></span>待发货
+          </a>
+          <a href="#" class="status-item">
+            <span class="iconify" data-icon="mdi:truck-delivery-outline"></span>待收货
+          </a>
+          <a href="#" class="status-item">
+            <span class="iconify" data-icon="mdi:comment-quote-outline"></span>待评价
+          </a>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="card-header">
+          <span class="card-title">我的萌宠</span>
+          <button style="color: #FF8C42; background: none; border: none; cursor: pointer;">+ 添加宠物</button>
+        </div>
+        <div id="petList" style="text-align: center; color: #999; padding: 20px;">
+          还没有添加宠物档案，添加后可获得精准推荐哦~
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+  $(function() {
+    const userInfo = JSON.parse(localStorage.getItem("customerInfo"));
+    if (!userInfo) {
+      window.location.href = "/client/login.html";
+      return;
+    }
+
+    // 初始化基础信息
+    $('#displayName').text(userInfo.name);
+    $('#displayBalance').text('¥' + (userInfo.balance || 0).toFixed(2));
+
+    /**
+     * 路由切换逻辑
+     * @param pageName 页面名称
+     */
+    window.loadSubPage = function(pageName) {
+      // 更新菜单激活状态
+      $('.menu-item').removeClass('active');
+      $(`.menu-item[data-page="${pageName}"]`).addClass('active');
+
+      if (pageName === 'index') {
+        location.reload(); // 首页简单处理直接刷新
+        return;
+      }
+
+      // 加载订单列表或其他片段
+      const url = "/client/loadPage/" + pageName;
+      $('.profile-content').fadeOut(100, function() {
+        $(this).load(url, function() {
+          $(this).fadeIn(200);
+          // 如果是加载订单页，初始化订单数据
+          if(pageName === 'order_list') initOrderList();
+        });
+      });
+    };
+
+    // 绑定菜单点击
+    $('.menu-item[data-page]').click(function(e) {
+      e.preventDefault();
+      loadSubPage($(this).data('page'));
+    });
+  });
+</script>
+
+</body>
+</html>

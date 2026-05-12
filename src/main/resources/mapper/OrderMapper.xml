@@ -62,4 +62,43 @@
         DELETE FROM `order` WHERE id = #{id}
     </delete>
 
+    <insert id="insertOrder" parameterType="org.example.modules.orderManage.entity.Order">
+        INSERT INTO `order` (
+            id,                order_no,
+            customer_id,
+            receiver_address,
+            total_price,
+            status,
+            create_time
+        )
+        VALUES (
+                   #{id},             #{orderNo},
+                   #{customerId},
+                   #{receiverAddress},
+                   #{totalPrice},
+                   #{status},
+                   #{createTime}
+               )
+    </insert>
+
+    <insert id="insertOrderItems">
+        INSERT INTO order_item (
+        id,                order_id,
+        good_id,
+        quantity,
+        price,good_name
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},    #{item.orderId},
+            #{item.goodId},
+            #{item.quantity},
+            #{item.price},#{item.goodName}
+            )
+        </foreach>
+    </insert>
+    <update id="updateStatusByNo">
+        UPDATE `order` SET status = #{status} WHERE order_no = #{orderNo}
+    </update>
 </mapper>

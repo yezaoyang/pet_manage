@@ -48,12 +48,9 @@
     </insert>
 
     <select id="selectById" resultType="org.example.modules.goodManage.entity.Good">
-        SELECT * FROM `good` g
-            LEFT JOIN category c ON g.category_id = c.id
-            <where>
-                <if test="id != null and id != ''">
-                   And g.id = #{id}
-                </if>
-            </where>
+        SELECT g.*, c.name as categoryName
+        FROM `good` g
+                 LEFT JOIN category c ON g.category_id = c.id
+        WHERE g.id = #{id}
     </select>
 </mapper>

@@ -24,21 +24,21 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         // 针对前台 API 的拦截逻辑
-        if (uri.contains("/api/cart/") || uri.contains("/client/")) {
-            Object customer = session.getAttribute("customer");
-            if (customer == null) {
-                // 必须在获取 writer 之前设置编码
-                response.setContentType("text/html;charset=UTF-8");
-                response.setCharacterEncoding("UTF-8");
-
-                if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-                    response.getWriter().write("{\"code\":401, \"msg\":\"请先登录\"}");
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/html/client/login.html");
-                }
-                return false;
-            }
-        }
+//        if (uri.contains("/api/cart/") || uri.contains("/client/")) {
+//            Object customer = session.getAttribute("customerInfo");
+//            if (customer == null) {
+//                // 必须在获取 writer 之前设置编码
+//                response.setContentType("text/html;charset=UTF-8");
+//                response.setCharacterEncoding("UTF-8");
+//
+//                if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+//                    response.getWriter().write("{\"code\":401, \"msg\":\"请先登录\"}");
+//                } else {
+//                    response.sendRedirect(request.getContextPath() + "/html/client/login.html");
+//                }
+//                return false;
+//            }
+//        }
 
         return true; // 其他路径（如首页）默认放行
     }

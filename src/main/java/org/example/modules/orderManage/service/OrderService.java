@@ -2,6 +2,8 @@ package org.example.modules.orderManage.service;
 
 import org.example.modules.orderManage.entity.Order;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -11,4 +13,13 @@ public interface OrderService {
     public Order getOrderDetails(Integer id);
 
     public boolean deleteOrder(Integer id);
+
+    /**
+     * 根据订单号更新状态
+     */
+    void updateStatusByNo(String orderNo, Integer status);
+
+    @Transactional(rollbackFor = Exception.class)
+    String submitOrder(Order orderDto);
+
 }

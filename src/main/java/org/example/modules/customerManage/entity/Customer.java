@@ -14,7 +14,6 @@ public class Customer {
     private String phone;
     private String address;
     private BigDecimal balance;
-    private Integer status;
     // 高频核心关联：用户的订单、购物车
     private List<Order> orderList;
     private List<Cart> cartList;
@@ -65,14 +64,6 @@ public class Customer {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public List<Order> getOrderList() {

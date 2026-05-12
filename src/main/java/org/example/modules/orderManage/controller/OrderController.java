@@ -2,6 +2,7 @@ package org.example.modules.orderManage.controller;
 
 import org.example.modules.orderManage.entity.Order;
 import org.example.modules.orderManage.service.OrderService;
+import org.example.modules.userManage.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,5 +78,17 @@ public class OrderController {
             result.put("msg", "删除失败");
         }
         return result;
+    }
+    @PostMapping("/submit")
+    public Result submit(@RequestBody Order order) {
+        // 直接接收 Order 实体，JSON 结构中的 orderItemList 会自动映射到 List<OrderItem>
+        String orderNo = orderService.submitOrder(order);
+        return Result.success(orderNo);
+    }
+
+    @PostMapping("/updateStatus")
+    public Result updateStatus(@RequestParam String orderNo, @RequestParam Integer status) {
+        orderService.updateStatusByNo(orderNo, status);
+        return Result.success();
     }
 }

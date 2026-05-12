@@ -16,7 +16,7 @@ public interface GoodMapper {
     int selectGoodCount(@Param("name") String name);
 
     // 根据ID查询
-    Good selectById(Long id);
+    Good selectById(@Param("id") Long id);
 
     // 更新商品（包含上下架）
     int update(Good good);

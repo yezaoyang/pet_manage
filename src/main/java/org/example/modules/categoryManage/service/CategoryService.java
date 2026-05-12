@@ -32,4 +32,6 @@ public interface CategoryService {
 
     void removeByIds(List<Integer> ids);
 
+    List<Category>  findCategoriesByLevel(String level);
+
 }

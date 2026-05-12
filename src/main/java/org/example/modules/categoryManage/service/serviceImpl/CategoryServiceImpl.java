@@ -58,4 +58,9 @@ public class CategoryServiceImpl implements CategoryService {
     public void removeByIds(List<Integer> ids) {
         categoryMapper.removeByIds(ids);
     }
+
+    @Override
+    public List<Category> findCategoriesByLevel(String level) {
+        return categoryMapper.findCategoriesByLevel(level);
+    }
 }

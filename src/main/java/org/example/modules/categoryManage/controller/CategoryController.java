@@ -23,6 +23,18 @@ public class CategoryController {
         return Result.success(allCategories);
     }
 
+    @GetMapping("/list1")
+    public Result<List<Category>> getCategoriesByLevel(@RequestParam(value = "level", defaultValue = "1") String level) {
+        try {
+            // 根据前端传入的 level 进行查询
+            List<Category> list = categoryService.findCategoriesByLevel(level);
+            return Result.success(list);
+        } catch (Exception e) {
+            e.printStackTrace(); // 打印日志方便排查
+            return Result.error("分类加载失败：" + e.getMessage());
+        }
+    }
+
     @GetMapping("/list")
     public Result list(
             @RequestParam(defaultValue = "1") Integer page,
